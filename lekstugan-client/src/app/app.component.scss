@@ -1,0 +1,39 @@
+#header-icon {
+  border-radius: 50%;
+  width: 40px;
+
+  &:hover {
+    cursor: pointer;
+    box-shadow: 0 0 5px black;
+  }
+}
+
+.spacer {
+  margin: 5px;
+}
+
+.main-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgb(56, 56, 56);
+}
+
+.sidenav-container {
+  width: minmax(200px, 300px);
+  background-color: rgba(249, 57, 57, 0);
+}
+
+.navLink {
+  display: block;
+  width: 140px;
+  border-radius: 0;
+  border-bottom: 1px solid black;
+}
+
+app-header {
+  position: fixed;
+  z-index: 1;
+}
