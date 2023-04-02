@@ -1,21 +1,14 @@
+  <picture>
+    <source media="(min-width: 700px)" srcset="../assets/lekstugan-header.png">
+  </picture>
 <mat-drawer-container class="main-container" autosize>
+  <img src="../assets/lekstugan-header-2.png" alt="">
   <!-- <app-header></app-header> Only rendered on desktop, excluded on mobile -->
   <mat-drawer #drawer class="sidenav-container" mode="over">
-    <!-- <mat-list>
-      <mat-list-item>
-        <mat-icon mat-list-icon>home</mat-icon>
-        <h4 matLine>Home</h4>
-      </mat-list-item>
-      <mat-divider></mat-divider>
-      <mat-list-item>Item 2</mat-list-item>
-      <mat-divider></mat-divider>
-      <mat-list-item>Item 3</mat-list-item>
-    </mat-list> -->
-        <button class="navLink" color="primary" routerLink="/booking" mat-flat-button><mat-icon>home</mat-icon>Hem</button>
-        <button class="navLink" color="primary" routerLink="/booking" mat-flat-button><mat-icon>home</mat-icon>Hem</button>
         <button class="navLink" color="primary" routerLink="/" mat-flat-button><mat-icon>home</mat-icon>Hem</button>
-        <button class="navLink" color="primary" routerLink="/booking" mat-flat-button><mat-icon>home</mat-icon>Hem</button>
-
+        <button class="navLink" color="primary" routerLink="/images" mat-flat-button><mat-icon>photo_library</mat-icon>Fotogalleri</button>
+        <button class="navLink" color="primary" routerLink="/events" mat-flat-button><mat-icon>event</mat-icon>Events</button>
+        <button class="navLink" color="primary" routerLink="/contact" mat-flat-button><mat-icon>mail</mat-icon>Kontakt</button>
   </mat-drawer>
   <div class="example-sidenav-content">
     <button (click)="drawer.toggle()" mat-icon-button class="example-icon"
