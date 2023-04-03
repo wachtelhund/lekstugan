@@ -11,7 +11,6 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
-// import { ImageGalleryComponent } from './image-gallery/image-gallery.component';
 import { ImageComponent, ImageModal } from './image-gallery/image/image.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -22,7 +21,7 @@ import { HttpClientModule } from '@angular/common/http';
     AppComponent,
     ImageGalleryComponent,
     ImageComponent,
-    ImageModal
+    ImageModal,
   ],
   imports: [
     BrowserModule,

@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { HostListener } from '@angular/core';
+import { Component} from '@angular/core';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   selector: 'app-root',
@@ -9,10 +9,15 @@ import { HostListener } from '@angular/core';
 export class AppComponent {
   isSticky: boolean = false;
   title = 'lekstugan-client';
+  isMobile: boolean = false;
 
-  @HostListener('window:scroll', [])
-  onWindowScroll() {
-    const scrollTop = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
-    this.isSticky = scrollTop > 50;
+  constructor(private deviceService: DeviceDetectorService) {
+    this.setIsMobile();
+  }
+
+  setIsMobile() {
+    if (this.deviceService.isMobile() || this.deviceService.isTablet()) {
+      this.isMobile = true;
+    }
   }
 }
