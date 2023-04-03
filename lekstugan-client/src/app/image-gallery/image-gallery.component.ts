@@ -14,8 +14,8 @@ export class ImageGalleryComponent {
   constructor(private http: HttpClient) {
     this.getRandomImageSizes();
     this.getImages();
-    console.log(this.imageSizes);
   }
+
 
   getRandomImageSizes() {
     for (let i = 0; i < this.amount; i++) {
@@ -32,10 +32,6 @@ export class ImageGalleryComponent {
         console.log(error);
       });
     }
-  }
-
-  logArray() {
-    console.log(this.imageUrls);
   }
 
   setColNum() {
