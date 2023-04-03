@@ -1,5 +1,13 @@
 <mat-drawer-container class="main-container" autosize>
-  <img id="header-image" src="../assets/lekstugan-header-2.png" alt="">
+  <!-- <img id="header-image" src="../assets/anthony-delanoix-hzgs56Ze49s-unsplash.jpg" alt=""> -->
+  <header>
+    Lekstugan
+    <button (click)="drawer.toggle()" [ngClass]="{'sticky': isSticky }" mat-icon-button class="menu-icon"
+      aria-label="Example icon-button with menu icon">
+      <mat-icon color="primary">menu</mat-icon>
+    </button>
+
+  </header>
   <mat-drawer #drawer class="sidenav-container" mode="over">
         <button class="navLink" color="primary" routerLink="/" mat-flat-button><mat-icon>home</mat-icon>Hem</button>
         <button class="navLink" color="primary" routerLink="/gallery" mat-flat-button><mat-icon>photo_library</mat-icon>Fotogalleri</button>
@@ -7,10 +15,6 @@
         <button class="navLink" color="primary" routerLink="/contact" mat-flat-button><mat-icon>mail</mat-icon>Kontakt</button>
   </mat-drawer>
   <div class="sidenav-content">
-    <button (click)="drawer.toggle()" mat-icon-button class="example-icon"
-      aria-label="Example icon-button with menu icon">
-      <mat-icon color="primary">menu</mat-icon>
-    </button>
+    <router-outlet></router-outlet>
   </div>
-  <router-outlet></router-outlet>
 </mat-drawer-container>
