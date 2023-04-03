@@ -11,9 +11,18 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
+// import { ImageGalleryComponent } from './image-gallery/image-gallery.component';
+import { ImageComponent, ImageModal } from './image-gallery/image/image.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ImageGalleryComponent } from './image-gallery/image-gallery.component';
+import { HttpClientModule } from '@angular/common/http';
 @NgModule({
   declarations: [
     AppComponent,
+    ImageGalleryComponent,
+    ImageComponent,
+    ImageModal
   ],
   imports: [
     BrowserModule,
@@ -26,6 +35,9 @@ import { MatMenuModule } from '@angular/material/menu';
     MatDividerModule,
     MatListModule,
     MatMenuModule,
+    MatDialogModule,
+    MatProgressSpinnerModule,
+    HttpClientModule
 
   ],
   providers: [],
