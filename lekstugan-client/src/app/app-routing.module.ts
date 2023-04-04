@@ -1,17 +1,17 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
 
-import { ImageGalleryComponent } from './image-gallery/image-gallery.component';
+import {ImageGalleryComponent} from './image-gallery/image-gallery.component';
 
 const routes: Routes = [
   {
     path: 'gallery',
-    component: ImageGalleryComponent
-  }
+    component: ImageGalleryComponent,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class AppRoutingModule { }
