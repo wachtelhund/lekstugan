@@ -13,7 +13,11 @@ export class ImageModal {
   /**
    * Constructor.
    */
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData) { }
+}
+
+export interface DialogData {
+  imageUrl: string;
 }
 
 @Component({
@@ -42,7 +46,7 @@ export class ImageComponent {
    * Opens the modal.
    */
   onOpenModal() {
-    const modalRef = this.modal.open(ImageModal, {
+    this.modal.open(ImageModal, {
       data: {
         imageUrl: this.imageUrl,
       },
@@ -53,8 +57,9 @@ export class ImageComponent {
    * Gets random image sizes.
    */
   getRandomImageSizes() {
-    this.imageSize = (`${Math.floor(Math.random() * 4000) + 3000}
-        x${Math.floor(Math.random() * 3000) + 2000}`);
+    this.imageSize = (Math.floor(Math.random() * 4000) + 3000) +
+        'x' +
+        (Math.floor(Math.random() * 3000) + 2000);
   }
 
   /**
@@ -63,7 +68,8 @@ export class ImageComponent {
   getImages() {
     const [width, height] = this.imageSize.split('x');
     console.log(width, height);
-    this.http.get(`https://random.imagecdn.app/v1/image?width=${width}&height=${height}`, {responseType: 'text'}).subscribe((response: any) => {
+    this.http.get(`https://random.imagecdn.app/v1/image?width=${width}&height=${height}`
+        , {responseType: 'text'}).subscribe((response: string) => {
       this.imageUrl = response;
       console.log(response);
       this.isLoading = false;

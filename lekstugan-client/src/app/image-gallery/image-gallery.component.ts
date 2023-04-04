@@ -41,7 +41,8 @@ export class ImageGalleryComponent {
   getImages() {
     for (let i = 0; i < this.amount; i++) {
       const [width, height] = this.imageSizes[i].split('x');
-      this.http.get(`https://random.imagecdn.app/v1/image?width=${width}&height=${height}`, {responseType: 'text'}).subscribe((response: any) => {
+      this.http.get(`https://random.imagecdn.app/v1/image?width=${width}&height=${height}`
+          , {responseType: 'text'}).subscribe((response: string) => {
         this.imageUrls.push(response);
       }, (error) => {
         console.log(error);

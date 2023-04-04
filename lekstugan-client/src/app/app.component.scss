@@ -57,6 +57,7 @@ header {
 
 
 #desktop-header {
+  position: fixed;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
