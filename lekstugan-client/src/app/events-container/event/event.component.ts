@@ -1,12 +1,6 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
+import {EventData} from '../EventDataInterface';
 
-export interface EventData {
-  id: number;
-  title: string;
-  description: string;
-  date: string;
-  image?: string;
-}
 @Component({
   selector: 'app-event',
   templateUrl: './event.component.html',
@@ -16,14 +10,5 @@ export interface EventData {
  * EventComponent
  */
 export class EventComponent {
-  eventData: EventData = {
-    id: Math.floor(Math.random() * 100),
-    title: 'Event',
-    description: 'This is the first event',
-    date: '2020-01-01',
-    image: 'https://picsum.photos/600/600',
-  };
-
-  constructor() { }
-
+  @Input() eventData!: EventData;
 }

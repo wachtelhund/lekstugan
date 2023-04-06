@@ -1,10 +1,39 @@
 .event-card {
-  max-width: 900px;
+  max-width: 800px;
   box-shadow: 0 0 20px 2px rgba(0, 0, 0, 0.203);
 }
 
 .event-image {
   object-fit: cover;
+  max-height: 500px;
+}
+
+p {
+  font-size: 1.2rem;
+}
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  display: flex;
+  align-items: center;
+  color: #6570a9;
+  text-decoration: none;
+  & > * {
+    margin-right: 5px;
+  }
+
+  &:hover {
+    color: #6570a9ca;
+  }
+}
+
+mat-card-title {
+  font-size: 1.5rem;
+  font-weight: bold;
 }
 
 @media screen and (max-width: 600px) {
