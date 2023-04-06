@@ -17,6 +17,11 @@
   background-color: transparent;
 }
 
+mat-drawer {
+  position: fixed;
+  bottom: 3rem;
+}
+
 .navLink {
   align-items: center;
   font-size: 1.05rem;
@@ -34,9 +39,10 @@
 
 .menu-icon {
   position: fixed;
-  top: 110px;
+  bottom: 1rem;
   left: 1rem;
   background-color: rgba(0, 0, 0, 0.458);
+  z-index: 100;
 }
 
 header {
@@ -62,6 +68,7 @@ header {
   flex-direction: row;
   justify-content: space-between;
   font-size: 45px;
+  z-index: 100;
 
   & > h2 {
     margin-left: 20px;
