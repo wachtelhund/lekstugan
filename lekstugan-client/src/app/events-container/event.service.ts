@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {EventData} from './EventDataInterface';
+import {IEventData} from './IEventData';
 
 @Injectable({
   providedIn: 'root',
@@ -8,13 +8,13 @@ import {EventData} from './EventDataInterface';
  * EventService
  */
 export class EventService {
-  events: EventData[] = [
+  events: IEventData[] = [
     {
       id: Math.floor(Math.random() * 100),
       title: 'Event',
       description: 'This is the first event',
       date: '2020-01-01',
-      image: 'https://picsum.photos/1200/600',
+      image: 'https://picsum.photos/500/600',
       links: ['https://www.google.com', 'https://www.reddit.com'],
     },
     {
@@ -38,9 +38,9 @@ export class EventService {
   /**
    * Gets the events.
    *
-   * @return {EventData[]} The events.
+   * @return {IEventData[]} The events.
    */
-  getEvents(): EventData[] {
+  getEvents(): IEventData[] {
     return this.events;
   }
 }

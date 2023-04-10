@@ -1,5 +1,7 @@
 import {Component} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {IBase64Image} from './IBase64Image';
+import {ImageService} from './image.service';
 
 @Component({
   selector: 'app-image-gallery',
@@ -13,41 +15,15 @@ export class ImageGalleryComponent {
   imageUrls: string[] = [];
   imageSizes: string[] = [];
   amount = 2;
+  images: IBase64Image[] = [];
 
   /**
    * Constructor.
    *
    * @param {HttpClient} http The http client.
    */
-  constructor(private http: HttpClient) {
-    this.getRandomImageSizes();
-    this.getImages();
-  }
-
-
-  /**
-   * Gets random image sizes.
-   */
-  getRandomImageSizes() {
-    for (let i = 0; i < this.amount; i++) {
-      this.imageSizes.push(`${Math.floor(Math.random() * 3264) + 100}
-          x${Math.floor(Math.random() * 3024) + 100}`);
-    }
-  }
-
-  /**
-   * Gets images.
-   */
-  getImages() {
-    for (let i = 0; i < this.amount; i++) {
-      const [width, height] = this.imageSizes[i].split('x');
-      this.http.get(`https://random.imagecdn.app/v1/image?width=${width}&height=${height}`
-          , {responseType: 'text'}).subscribe((response: string) => {
-        this.imageUrls.push(response);
-      }, (error) => {
-        console.log(error);
-      });
-    }
+  constructor(private http: HttpClient, private imageService: ImageService) {
+    this.images = this.imageService.getImages();
   }
 
   /**

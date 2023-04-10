@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {EventData} from './EventDataInterface';
+import {IEventData} from './IEventData';
 import {EventService} from './event.service';
 
 @Component({
@@ -11,7 +11,7 @@ import {EventService} from './event.service';
  * EventsContainerComponent
  */
 export class EventsContainerComponent {
-  events: EventData[] = [];
+  events: IEventData[] = [];
   /**
    * Constructor.
    */
