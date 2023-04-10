@@ -12,7 +12,7 @@ import {HttpClient} from '@angular/common/http';
 export class ImageGalleryComponent {
   imageUrls: string[] = [];
   imageSizes: string[] = [];
-  amount = 20;
+  amount = 2;
 
   /**
    * Constructor.
