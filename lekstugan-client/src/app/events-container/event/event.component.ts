@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {EventData} from '../EventDataInterface';
+import {IEventData} from '../IEventData';
 
 @Component({
   selector: 'app-event',
@@ -10,5 +10,5 @@ import {EventData} from '../EventDataInterface';
  * EventComponent
  */
 export class EventComponent {
-  @Input() eventData!: EventData;
+  @Input() eventData!: IEventData;
 }
