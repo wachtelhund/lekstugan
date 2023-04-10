@@ -14,8 +14,14 @@ export class ImageService {
    * Constructor.
    */
   constructor() {
-    for (let i = 0; i < 10; i++) {
-      this.images.push(this.generateRandomBase64Image(500, 500));
+    for (let i = 0; i < 50; i++) {
+      this.getRandomBase64Image()
+          .then((image) => {
+            this.images.push(image);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
     }
   }
 
@@ -48,47 +54,31 @@ export class ImageService {
   }
 
   /**
-   * Generates a random base64 image.
-   * This is used for testing purposes.
+   * Gets a random base64 image. This is for testing purposes.
    *
-   * @param {number} width - The width of the image.
-   * @param {number} height - The height of the image.
-   * @param {string} format - The format of the image.
-   * @param {number} quality - The quality of the image.
-   * @return {string} The base64 image.
+   * @return {Promise<IBase64Image>} The base64 image.
    */
-  generateRandomBase64Image(width: number,
-      height: number,
-      format: ImageType = ImageType.png,
-      quality = 0.9): IBase64Image {
-    const canvas = document.createElement('canvas');
-    canvas.width = width;
-    canvas.height = height;
-
-    const ctx = canvas.getContext('2d');
-    if (!ctx) {
-      throw new Error('Failed to get canvas 2D context');
-    }
-
-    const imageData = ctx.createImageData(width, height);
-    for (let i = 0; i < imageData.data.length; i += 4) {
-      imageData.data[i + 0] = Math.floor(Math.random() * 256); // Red
-      imageData.data[i + 1] = Math.floor(Math.random() * 256); // Green
-      imageData.data[i + 2] = Math.floor(Math.random() * 256); // Blue
-      imageData.data[i + 3] = 255; // Alpha (255 = fully opaque)
-    }
-
-    ctx.putImageData(imageData, 0, 0);
-
-    const base64 = canvas.toDataURL(format, quality);
-
-    return {
-      base64,
-      width,
-      height,
-      type: format,
-      pending: false,
-      id: Math.floor(Math.random() * 1000000),
-    };
+  async getRandomBase64Image(): Promise<IBase64Image> {
+    const width = 800;
+    const height = 600;
+    const res = await fetch(`https://picsum.photos/${width}/${height}`);
+    const blob = await res.blob();
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        resolve({
+          base64: reader.result as string,
+          pending: false,
+          width: width,
+          height: height,
+          type: ImageType.jpg,
+          id: this.images.length,
+        });
+      };
+      reader.onerror = () => {
+        return reject(new Error('Could not read image'));
+      };
+      reader.readAsDataURL(blob);
+    });
   }
 }
