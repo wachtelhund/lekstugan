@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {FormGroup, FormControl, Validators} from '@angular/forms';
-import {BookingService} from './booking.service';
+import {BookingService} from '../../services/booking.service';
 import {IBooking} from './IBooking';
 
 @Component({

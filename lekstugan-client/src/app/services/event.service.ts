@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {IEventData} from './IEventData';
+import {IEventData} from '../pages/events-container/IEventData';
 
 @Injectable({
   providedIn: 'root',

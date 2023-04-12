@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {IBase64Image} from './IBase64Image';
-import {ImageService} from './image.service';
+import {ImageService} from '../../services/image.service';
 
 @Component({
   selector: 'app-image-gallery',

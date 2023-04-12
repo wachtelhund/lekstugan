@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {IBase64Image, ImageType} from './IBase64Image';
+import {IBase64Image, ImageType} from '../pages/image-gallery/IBase64Image';
 
 @Injectable({
   providedIn: 'root',
