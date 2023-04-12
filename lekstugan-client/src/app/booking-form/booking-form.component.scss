@@ -1,0 +1,35 @@
+.container {
+  margin-top: 150px;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  // background-color: gray;
+}
+
+form {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-template-rows: 2;
+  grid-gap: 10px;
+  grid-template-areas: 
+  'date email'
+  'comment comment';
+  ;
+  // display: flex;
+  // flex-direction: column;
+  max-width: 500px;
+}
+
+mat-card {
+  padding: 20px;
+  width: max-content;
+}
+#date {
+  grid-area: date;
+}
+#email {
+  grid-area: email;
+}
+#comment {
+  grid-area: comment;
+}
