@@ -22,6 +22,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { EventsContainerComponent } from './events-container/events-container.component';
 import { EventComponent } from './events-container/event/event.component';
 import { MatCardModule } from '@angular/material/card';
+import { BookingFormComponent } from './booking-form/booking-form.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatInputModule } from '@angular/material/input';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,6 +37,7 @@ import { MatCardModule } from '@angular/material/card';
     ImageModal,
     EventsContainerComponent,
     EventComponent,
+    BookingFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -46,7 +54,12 @@ import { MatCardModule } from '@angular/material/card';
     MatProgressSpinnerModule,
     HttpClientModule,
     MatCardModule,
-
+    MatDatepickerModule,
+    MatFormFieldModule,
+    MatNativeDateModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatCheckboxModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

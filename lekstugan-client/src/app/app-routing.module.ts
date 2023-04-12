@@ -3,6 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 
 import {ImageGalleryComponent} from './image-gallery/image-gallery.component';
 import {EventsContainerComponent} from './events-container/events-container.component';
+import {BookingFormComponent} from './booking-form/booking-form.component';
 
 const routes: Routes = [
   {
@@ -12,6 +13,10 @@ const routes: Routes = [
   {
     path: 'events',
     component: EventsContainerComponent,
+  },
+  {
+    path: 'contact',
+    component: BookingFormComponent,
   },
 ];
 
