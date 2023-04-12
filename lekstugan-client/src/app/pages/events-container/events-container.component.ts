@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {IEventData} from './IEventData';
-import {EventService} from './event.service';
+import {EventService} from '../../services/event.service';
 
 @Component({
   selector: 'app-events-container',

@@ -14,17 +14,21 @@ import {MatMenuModule} from '@angular/material/menu';
 import {
   ImageComponent,
   ImageModal,
-} from './image-gallery/image/image.component';
+} from './pages/image-gallery/image/image.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import {ImageGalleryComponent} from './image-gallery/image-gallery.component';
+import {
+  ImageGalleryComponent,
+} from './pages/image-gallery/image-gallery.component';
 import {HttpClientModule} from '@angular/common/http';
 import {
   EventsContainerComponent,
-} from './events-container/events-container.component';
-import {EventComponent} from './events-container/event/event.component';
+} from './pages/events-container/events-container.component';
+import {EventComponent} from './pages/events-container/event/event.component';
 import {MatCardModule} from '@angular/material/card';
-import {BookingFormComponent} from './booking-form/booking-form.component';
+import {
+  BookingFormComponent,
+} from './components/booking-form/booking-form.component';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatNativeDateModule} from '@angular/material/core';

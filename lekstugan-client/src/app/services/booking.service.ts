@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {IBooking} from './IBooking';
+import {IBooking} from '../components/booking-form/IBooking';
 
 @Injectable({
   providedIn: 'root',

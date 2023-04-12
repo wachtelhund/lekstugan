@@ -1,11 +1,15 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 
-import {ImageGalleryComponent} from './image-gallery/image-gallery.component';
+import {
+  ImageGalleryComponent,
+} from './pages/image-gallery/image-gallery.component';
 import {
   EventsContainerComponent,
-} from './events-container/events-container.component';
-import {BookingFormComponent} from './booking-form/booking-form.component';
+} from './pages/events-container/events-container.component';
+import {
+  BookingFormComponent,
+} from './components/booking-form/booking-form.component';
 
 const routes: Routes = [
   {
