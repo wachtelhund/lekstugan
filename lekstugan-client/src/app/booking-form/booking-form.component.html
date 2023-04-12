@@ -23,6 +23,14 @@
             cdkAutosizeMaxRows="5"></textarea>
   </mat-form-field>
   <button mat-raised-button>Request booking</button>
+  <span id="confirm-valid" *ngIf="booked">
+    <mat-icon>check</mat-icon>
+    Booking requested!
+  </span>
+  <span id="confirm-invalid" *ngIf="invalid">
+    <mat-icon>priority_high</mat-icon>
+    Something went wrong.
+  </span>
   </form>
 </mat-card>
 </div>

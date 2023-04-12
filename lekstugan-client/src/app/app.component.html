@@ -1,5 +1,4 @@
 <mat-drawer-container class="main-container" autosize>
-  <!-- <img id="header-image" src="../assets/anthony-delanoix-hzgs56Ze49s-unsplash.jpg" alt=""> -->
   <header *ngIf="isMobile" id="mobile-header">
     Lekstugan
     <button (click)="drawer.toggle()" [ngClass]="{'sticky': isSticky }" mat-icon-button class="menu-icon"
@@ -11,10 +10,6 @@
     <h2>
       Lekstugan
     </h2>
-    <!-- <button (click)="drawer.toggle()" [ngClass]="{'sticky': isSticky }" mat-icon-button class="menu-icon"
-      aria-label="Example icon-button with menu icon">
-      <mat-icon color="primary">menu</mat-icon>
-    </button> -->
     <div>
       <button class="navLink-desktop" color="primary" routerLink="/"><mat-icon>home</mat-icon>Hem</button>
       <button class="navLink-desktop" color="primary" routerLink="/gallery"><mat-icon>photo_library</mat-icon>Fotogalleri</button>

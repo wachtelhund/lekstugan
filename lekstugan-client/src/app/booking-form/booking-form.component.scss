@@ -24,12 +24,29 @@ mat-card {
   padding: 20px;
   width: max-content;
 }
+
+#confirm-valid {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  color: green;
+}
+
+#confirm-invalid {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  color: red;
+}
+
 #date {
   grid-area: date;
 }
+
 #email {
   grid-area: email;
 }
+
 #comment {
   grid-area: comment;
 }
