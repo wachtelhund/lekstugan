@@ -5,7 +5,7 @@
   <form [formGroup]="bookingForm" (submit)="onSubmitBooking()" action="#">
     <mat-form-field id="date" appearance="fill">
       <mat-label>Choose a date</mat-label>
-      <input formControlName="date" matInput [matDatepicker]="picker">
+      <input [matDatepickerFilter]="dateFilter" formControlName="date" matInput [matDatepicker]="picker">
       <mat-hint>MM/DD/YYYY</mat-hint>
       <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
@@ -25,7 +25,7 @@
   <button mat-raised-button>Request booking</button>
   <span id="confirm-valid" *ngIf="booked">
     <mat-icon>check</mat-icon>
-    Booking requested!
+    Booking for {{bookedDate | date: 'mediumDate'}} requested!
   </span>
   <span id="confirm-invalid" *ngIf="invalid">
     <mat-icon>priority_high</mat-icon>

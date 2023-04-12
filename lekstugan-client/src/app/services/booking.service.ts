@@ -46,4 +46,13 @@ export class BookingService {
   postBooking(booking: IBooking): void {
     this.bookings.push(booking);
   }
+
+  /**
+   * Get unavailable dates.
+   *
+   * @return {Date[]} - The unavailable dates.
+   */
+  getUnavailableDates(): Date[] {
+    return this.bookings.map((booking) => booking.date);
+  }
 }
