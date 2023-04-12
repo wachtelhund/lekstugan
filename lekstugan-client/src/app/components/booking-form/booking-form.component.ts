@@ -2,7 +2,6 @@ import {Component} from '@angular/core';
 import {FormGroup, FormControl, Validators} from '@angular/forms';
 import {BookingService} from '../../services/booking.service';
 import {IBooking} from './IBooking';
-import {DateFilterFn} from '@angular/material/datepicker';
 
 @Component({
   selector: 'app-booking-form',
@@ -45,6 +44,7 @@ export class BookingFormComponent {
 
     return date >= currentDate && !bookedDates.includes(workingDate);
   };
+
   /**
    * Constructor.
    */
