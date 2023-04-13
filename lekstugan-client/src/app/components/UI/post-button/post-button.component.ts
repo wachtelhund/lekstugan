@@ -31,45 +31,31 @@ export class PostButtonComponent {
     const file: File = target.files[0];
     const reader = new FileReader();
     reader.readAsDataURL(file);
-    reader.onload = () => {
-      const image = new Image();
-      image.src = reader.result as string;
-      this.imageService.uploadImage({
-        base64: reader.result as string,
-        width: image.width,
-        height: image.height,
-      } as IBase64Image);
+    reader.onload = async () => {
+      const base64 = reader.result as string;
+      await this.handleImage(base64);
     };
   }
-}
 
-/**
- * Resize a base64 image.
- *
- * @param {string} src Base64 image.
- * @param {number} newX New width.
- * @param {number} newY New height.
- * @return {Promise<String>} Promise with new base64 image.
- */
-export function compressImage(src: string,
-    newX: number,
-    newY: number): Promise<string> {
-  return new Promise((res, rej) => {
-    const img = new Image();
-    img.src = src;
-    img.onload = () => {
-      const elem = document.createElement('canvas');
-      elem.width = newX;
-      elem.height = newY;
-      const ctx = elem.getContext('2d');
-      if (!ctx) {
-        rej(Error('Error creating canvas'));
-        return;
-      }
-      ctx.drawImage(img, 0, 0, newX, newY);
-      const data = ctx.canvas.toDataURL();
-      res(data);
-    };
-    img.onerror = (error) => rej(error);
-  });
+  /**
+   * Handle image.
+   *
+   * @param {string} base64 - Base64 image.
+   * @return {Promise<void>} Promise.
+   */
+  async handleImage(base64: string) {
+    return new Promise<HTMLImageElement>((resolve, reject) => {
+      const image = new Image();
+      image.src = base64;
+      image.onload = () => {
+        this.imageService.uploadImage({
+          base64: image.src,
+          width: image.width,
+          height: image.height,
+        } as IBase64Image);
+        resolve(image);
+      };
+      image.onerror = (error) => reject(error);
+    });
+  }
 }
