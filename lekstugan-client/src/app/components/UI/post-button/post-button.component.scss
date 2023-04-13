@@ -1,0 +1,20 @@
+#upload {
+  font-size: 1.2rem;
+  font-weight: bold;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  height: 48px;
+  width: 48px;
+  width:max-content;
+  background-color: rgba(0, 0, 0, 0.781);
+  border-radius: 50%;
+}
+
+@media screen and (min-width: 768px) {
+  #upload {
+    width: 100px;
+    border-radius: 25px;
+  }
+}

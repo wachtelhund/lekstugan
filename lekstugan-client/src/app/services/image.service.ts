@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {IBase64Image, ImageType} from '../pages/image-gallery/IBase64Image';
+import {IBase64Image} from '../pages/image-gallery/IBase64Image';
 
 @Injectable({
   providedIn: 'root',
@@ -31,7 +31,7 @@ export class ImageService {
    * @return {IBase64Image[]} The images.
    */
   getImages(): IBase64Image[] {
-    return this.images.filter((image) => !image.pending);
+    return this.images;
   }
 
   /**
@@ -40,7 +40,7 @@ export class ImageService {
    * @return {IBase64Image[]} The pending images.
    */
   getPendingImages(): IBase64Image[] {
-    return this.images.filter((image) => image.pending);
+    return this.images;
   }
 
   /**
@@ -49,7 +49,6 @@ export class ImageService {
    * @param {IBase64Image} image The image to upload.
    */
   uploadImage(image: IBase64Image): void {
-    image.pending = true;
     this.images.push(image);
   }
 
@@ -68,11 +67,8 @@ export class ImageService {
       reader.onload = () => {
         resolve({
           base64: reader.result as string,
-          pending: false,
           width: width,
           height: height,
-          type: ImageType.jpg,
-          id: this.images.length,
         });
       };
       reader.onerror = () => {
