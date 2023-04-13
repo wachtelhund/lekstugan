@@ -1,0 +1,4 @@
+<button mat-icon-button (click)="files.click()" id="upload" for="files">
+  <mat-icon color="primary" id="upload-icon">upload</mat-icon>
+  <input [ngStyle]="{'display': 'none'}" (change)="onFileInput($event)" #files id="files" type="file" accept="image/jpg, image/png, image/jpeg">
+</button>

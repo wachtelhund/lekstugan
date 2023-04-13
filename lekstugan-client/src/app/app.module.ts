@@ -35,6 +35,7 @@ import {MatNativeDateModule} from '@angular/material/core';
 import {MatInputModule} from '@angular/material/input';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import { PostButtonComponent } from './components/UI/post-button/post-button.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,6 +45,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     EventsContainerComponent,
     EventComponent,
     BookingFormComponent,
+    PostButtonComponent,
   ],
   imports: [
     BrowserModule,
