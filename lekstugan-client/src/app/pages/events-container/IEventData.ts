@@ -2,7 +2,7 @@ export interface IEventData {
   id: number;
   title: string;
   description: string;
-  date: string;
+  date: Date;
   image?: string;
-  links?: string[];
+  link?: string;
 }

@@ -2,7 +2,7 @@
   <mat-card-header>
     <div mat-card-avatar class="example-header-image"></div>
     <mat-card-title>{{eventData.title}}</mat-card-title>
-    <mat-card-subtitle>{{eventData.date}}</mat-card-subtitle>
+    <mat-card-subtitle>{{eventData.date |  date: 'mediumDate'}}</mat-card-subtitle>
   </mat-card-header>
   <img class="event-image" *ngIf="eventData.image" mat-card-image src={{eventData.image}}>
   <mat-divider *ngIf="!eventData.image"></mat-divider>
@@ -10,10 +10,6 @@
     <p>
       {{eventData.description}}
     </p>
-    <ul *ngIf="eventData.links">
-      <li *ngFor="let link of eventData.links">
-        <a target="_blank" href={{link}}><mat-icon>link</mat-icon>{{link}}</a>
-      </li>
-    </ul>
+    <a target="_blank" href={{eventData.link}}><mat-icon>link</mat-icon>{{eventData.link}}</a>
   </mat-card-content>
 </mat-card>
