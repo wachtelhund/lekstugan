@@ -10,6 +10,9 @@ import {
 import {
   BookingFormComponent,
 } from './components/booking-form/booking-form.component';
+import {
+  EventFormComponent,
+} from './components/event-form/event-form.component';
 
 const routes: Routes = [
   {

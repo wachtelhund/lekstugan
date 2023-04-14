@@ -13,25 +13,25 @@ export class EventService {
       id: Math.floor(Math.random() * 100),
       title: 'Event',
       description: 'This is the first event',
-      date: '2020-01-01',
+      date: new Date('2020-01-01'),
       image: 'https://picsum.photos/500/600',
-      links: ['https://www.google.com', 'https://www.reddit.com'],
+      link: 'https://www.google.com',
     },
     {
       id: Math.floor(Math.random() * 100),
       title: 'Event',
       description: 'This is the second event',
-      date: '2020-01-01',
+      date: new Date('2020-01-01'),
       image: 'https://picsum.photos/1200/600',
-      links: ['https://www.google.com', 'https://www.reddit.com'],
+      link: 'https://www.google.com',
     },
     {
       id: Math.floor(Math.random() * 100),
       title: 'Event',
       description: 'This is the third event',
-      date: '2020-01-01',
+      date: new Date('2020-01-01'),
       image: 'https://picsum.photos/1200/600',
-      links: ['https://www.google.com', 'https://www.reddit.com'],
+      link: 'https://www.google.com',
     },
   ];
 
@@ -42,5 +42,14 @@ export class EventService {
    */
   getEvents(): IEventData[] {
     return this.events;
+  }
+
+  /**
+   * Posts an event.
+   *
+   * @param {IEventData} event The event to post.
+   */
+  postEvent(event: IEventData) {
+    this.events.push(event);
   }
 }

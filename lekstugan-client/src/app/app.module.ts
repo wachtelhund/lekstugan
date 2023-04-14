@@ -36,6 +36,7 @@ import {MatInputModule} from '@angular/material/input';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { PostButtonComponent } from './components/UI/post-button/post-button.component';
+import { EventFormComponent } from './components/event-form/event-form.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,6 +47,7 @@ import { PostButtonComponent } from './components/UI/post-button/post-button.com
     EventComponent,
     BookingFormComponent,
     PostButtonComponent,
+    EventFormComponent,
   ],
   imports: [
     BrowserModule,

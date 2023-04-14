@@ -73,6 +73,9 @@ export class BookingFormComponent {
       this.bookedDate = new Date(date);
       this.bookingForm.reset();
       this.booked = true;
+      setTimeout(() => {
+        this.booked = false;
+      }, 3000);
       console.log(this.bookingService.getBookings());
     } catch (error) {
       this.invalid = true;

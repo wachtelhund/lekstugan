@@ -1,0 +1,51 @@
+
+<div class="container">
+<mat-card>
+  <h1>Post event</h1>
+  <form [formGroup]="eventForm" (submit)="onSubmitEvent()" action="#">
+    <div id="mainFields">
+      <mat-form-field id="date" appearance="fill">
+        <mat-label>Choose a date</mat-label>
+        <input [matDatepickerFilter]="dateFilter" formControlName="date" matInput [matDatepicker]="picker">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field id="title">
+        <mat-label>Title</mat-label>
+        <input formControlName="title" matInput>
+      </mat-form-field>
+      <mat-form-field appearance="fill" id="description">
+      <mat-label>Description</mat-label>
+      <textarea formControlName="description" matInput
+                cdkTextareaAutosize
+                #autosize="cdkTextareaAutosize"
+                cdkAutosizeMinRows="1"
+                cdkAutosizeMaxRows="5"></textarea>
+      </mat-form-field>
+    </div>
+    <mat-form-field>
+      <mat-label>Link</mat-label>
+      <input formControlName="link" matInput>
+    </mat-form-field>
+    <mat-label id="imageInput" (click)="fileInput.click()" >
+      <mat-icon>attach_file</mat-icon>
+      Upload image
+      <span id="imageConfirmation" *ngIf="imageConfirmation !== ''"><mat-icon>check</mat-icon> {{imageConfirmation}} </span>
+      <input #fileInput (change)="onImageInput($event)" [ngStyle]="{'display': 'none'}" type="file" accept="image/jpg, image/jpeg, image/png">
+    </mat-label>
+    <br>
+    <div>
+      <button mat-raised-button>Request booking</button>
+      <span id="confirm-valid" *ngIf="posted">
+        <mat-icon>check</mat-icon>
+        Event posted!
+      </span>
+      <span id="confirm-invalid" *ngIf="invalid">
+        <mat-icon>priority_high</mat-icon>
+        Something went wrong.
+      </span>
+    </div>
+  </form>
+</mat-card>
+</div>
