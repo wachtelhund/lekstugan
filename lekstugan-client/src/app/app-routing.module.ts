@@ -25,7 +25,7 @@ const routes: Routes = [
   },
   {
     path: 'contact',
-    component: BookingFormComponent,
+    component: EventFormComponent,
   },
 ];
 

@@ -84,9 +84,17 @@ mat-card {
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  border-radius: 20px;
+  width: max-content;
+  padding: 10px;
 
   & > input {
     margin-left: 10px;
+  }
+
+  &:hover {
+    cursor: pointer;
+    background-color: rgba(213, 213, 213, 0.656);
   }
 }
 
