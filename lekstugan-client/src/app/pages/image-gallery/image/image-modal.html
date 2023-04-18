@@ -1,4 +1,9 @@
-<img class="modal-image" [src]="data.base64" alt="">
+<img class="modal-image" data-id={{data.id}} [src]="data.base64" alt="">
+<div mat-dialog-actions>
+  <button (click)="onDelete()" mat-fab color="warn">
+    <mat-icon>delete</mat-icon>
+  </button>
+</div>
 <style>
   .modal-image {
     max-width: 80vw;

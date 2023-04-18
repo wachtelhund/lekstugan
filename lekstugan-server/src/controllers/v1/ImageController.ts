@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import Image from '../../models/mongo/Image';
 import { IBase64Image } from '../../models/interfaces/IBase64Image';
+import { RequestError } from '../../models/errors/RequestError';
 /**
  * ImageController
  */
@@ -42,5 +43,26 @@ export class ImageController {
     });
     await image.save();
     res.json(image.id);
+  }
+
+  /**
+   * Delete an image
+   *
+   * @param {Request} req - Request
+   * @param {Request} res - Response
+   * @param {NextFunction} next - NextFunction
+   */
+  public async delete(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    try {
+      const { id } = req.params;
+      await Image.findByIdAndDelete(id);
+      res.json({ message: 'Image deleted' });
+    } catch (error) {
+      next(new RequestError('Image not found', 404));
+    }
   }
 }
