@@ -4,6 +4,7 @@ import logger from 'morgan';
 import { config } from 'dotenv';
 import { router } from './routes/api/router';
 import mongoose from 'mongoose';
+import cors from 'cors';
 config();
 
 if (process.env.DB_CONNECTION_STRING !== undefined) {
@@ -13,6 +14,9 @@ if (process.env.DB_CONNECTION_STRING !== undefined) {
       const app = express();
       app.use(helmet());
       app.use(logger('dev'));
+      app.use(express.json({ limit: '500kb' }));
+      app.use(express.urlencoded({ extended: false }));
+      app.use(cors());
 
       const PORT = process.env.PORT || 3000;
 

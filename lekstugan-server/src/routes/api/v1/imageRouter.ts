@@ -4,3 +4,4 @@ export const router = express.Router();
 const controller = new ImageController();
 
 router.get('/', (req, res, next) => controller.getAll(req, res, next));
+router.post('/', (req, res, next) => controller.post(req, res, next));

@@ -1,5 +1,7 @@
 import {Injectable} from '@angular/core';
 import {IBase64Image} from '../pages/image-gallery/IBase64Image';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -8,30 +10,21 @@ import {IBase64Image} from '../pages/image-gallery/IBase64Image';
  * The image service.
  */
 export class ImageService {
+  serverUrl = 'http://localhost:5000/api/v1';
   images: IBase64Image[] = [];
 
   /**
    * Constructor.
    */
-  constructor() {
-    for (let i = 0; i < 50; i++) {
-      this.getRandomBase64Image()
-          .then((image) => {
-            this.images.push(image);
-          })
-          .catch((error) => {
-            console.error(error);
-          });
-    }
-  }
+  constructor(private http: HttpClient) {}
 
   /**
    * Gets the accepted images.
    *
    * @return {IBase64Image[]} The images.
    */
-  getImages(): IBase64Image[] {
-    return this.images;
+  getImages(): Observable<IBase64Image[]> {
+    return this.http.get<IBase64Image[]>(this.serverUrl + '/images');
   }
 
   /**
@@ -58,32 +51,9 @@ export class ImageService {
       width: width,
       height: height,
     };
-    this.images.push(compressedImage);
-  }
-
-  /**
-   * Gets a random base64 image. This is for testing purposes.
-   *
-   * @return {Promise<IBase64Image>} The base64 image.
-   */
-  async getRandomBase64Image(): Promise<IBase64Image> {
-    const width = 800;
-    const height = 600;
-    const res = await fetch(`https://picsum.photos/${width}/${height}`);
-    const blob = await res.blob();
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => {
-        resolve({
-          base64: reader.result as string,
-          width: width,
-          height: height,
-        });
-      };
-      reader.onerror = () => {
-        return reject(new Error('Could not read image'));
-      };
-      reader.readAsDataURL(blob);
+    this.http.post(this.serverUrl + '/images',
+        compressedImage).subscribe((data) => {
+      this.images.push(data as IBase64Image);
     });
   }
 }
