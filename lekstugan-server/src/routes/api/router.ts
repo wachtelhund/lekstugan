@@ -7,5 +7,5 @@ export const router = express.Router();
 router.use('/api/v1', v1Router);
 
 router.use('*', (_req, _res, next) => {
-  next(new RequestError('Not Found', 404))
+  next(new RequestError('Not Found', 404));
 });
