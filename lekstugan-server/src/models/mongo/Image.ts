@@ -1,10 +1,5 @@
 import mongoose from 'mongoose';
-interface IBase64Image {
-  base64: string;
-  width: number;
-  height: number;
-  id?: string;
-}
+import { IBase64Image } from '../interfaces/IBase64Image';
 
 const schema = new mongoose.Schema<IBase64Image>(
   {
@@ -18,6 +13,10 @@ const schema = new mongoose.Schema<IBase64Image>(
     },
     height: {
       type: Number,
+      required: true,
+    },
+    pending: {
+      type: Boolean,
       required: true,
     },
   },
@@ -40,7 +39,7 @@ const schema = new mongoose.Schema<IBase64Image>(
 );
 
 schema.pre('save', async function () {
-  // eslint-disable-next-line no-invalid-this
+  /* eslint-disable no-invalid-this */
   this.id = this._id.toHexString();
 });
 
