@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 import {IBase64Image} from '../pages/image-gallery/IBase64Image';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
@@ -12,6 +12,7 @@ import {Observable} from 'rxjs';
 export class ImageService {
   serverUrl = 'http://localhost:5000/api/v1';
   images: IBase64Image[] = [];
+  imageDeleted: EventEmitter<string> = new EventEmitter();
 
   /**
    * Constructor.
@@ -34,6 +35,17 @@ export class ImageService {
    */
   getPendingImages(): IBase64Image[] {
     return this.images;
+  }
+
+  /**
+   * Deletes an image.
+   *
+   * @param {string} id Id of the image to delete.
+   * @return {Observable<any>} The observable.
+   */
+  deleteImage(id: string): Observable<any> {
+    this.imageDeleted.emit(id);
+    return this.http.delete(this.serverUrl + '/images/' + id);
   }
 
   /**
