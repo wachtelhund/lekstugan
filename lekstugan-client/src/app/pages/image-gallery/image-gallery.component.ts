@@ -23,7 +23,9 @@ export class ImageGalleryComponent {
    * @param {HttpClient} http The http client.
    */
   constructor(private http: HttpClient, private imageService: ImageService) {
-    this.images = this.imageService.getImages();
+    this.imageService.getImages().subscribe((images) => {
+      this.images = images;
+    });
   }
 
   /**
