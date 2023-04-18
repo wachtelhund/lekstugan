@@ -26,6 +26,16 @@ export class ImageGalleryComponent {
     this.imageService.getImages().subscribe((images) => {
       this.images = images;
     });
+    this.imageService.imageDeleted.subscribe((image) => this.onDeleted(image));
+  }
+
+  /**
+   * When an image is deleted.
+   *
+   * @param {IBase64Image} id The image to delete.
+   */
+  onDeleted(id: string) {
+    this.images = this.images.filter((i) => i.id !== id);
   }
 
   /**
