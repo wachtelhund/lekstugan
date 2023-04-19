@@ -27,22 +27,26 @@ export class ImageController {
    *
    * @param {Request} req - Request
    * @param {Request} res - Response
-   * @param {NextFunction} _next - NextFunction
+   * @param {NextFunction} next - NextFunction
    */
   public async post(
     req: Request,
     res: Response,
-    _next: NextFunction,
+    next: NextFunction,
   ): Promise<void> {
-    const { base64, width, height } = req.body;
-    const image = new Image<IBase64Image>({
-      base64,
-      width,
-      height,
-      pending: true,
-    });
-    await image.save();
-    res.json(image.id);
+    try {
+      const { base64, width, height } = req.body;
+      const image = new Image<IBase64Image>({
+        base64,
+        width,
+        height,
+        pending: true,
+      });
+      await image.save();
+      res.json(image.id);
+    } catch (error) {
+      next(new RequestError('Could not post image', 400));
+    }
   }
 
   /**
