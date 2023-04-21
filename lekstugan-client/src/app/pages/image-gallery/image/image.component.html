@@ -1,2 +1,12 @@
-<mat-spinner *ngIf="isLoading"></mat-spinner>
-<img loading="lazy" class="standard-image" (click)="onOpenModal()" *ngIf="!isLoading" src={{imageData.base64}} alt="">
+<!-- <div class="container" [ngClass]="{'pending': imageData.pending}"> -->
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+  <img [ngClass]="{'pending': imageData.pending}" loading="lazy" class="standard-image" (click)="onOpenModal()" *ngIf="!isLoading" src={{imageData.base64}} alt="">
+  <span id="confirm-group" *ngIf="imageData.pending">
+    <button (click)="onAccept()" mat-fab color="primary">
+      <mat-icon>check</mat-icon>
+    </button>
+    <button (click)="onDelete(imageData)" mat-fab color="warn">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </span>
+<!-- </div> -->

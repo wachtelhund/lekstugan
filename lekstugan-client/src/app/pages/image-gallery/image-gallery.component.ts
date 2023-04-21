@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {IBase64Image} from './IBase64Image';
+import {IBase64Image} from '../../types/IBase64Image';
 import {ImageService} from '../../services/image.service';
 
 @Component({
@@ -24,18 +24,30 @@ export class ImageGalleryComponent {
    */
   constructor(private http: HttpClient, private imageService: ImageService) {
     this.imageService.getImages().subscribe((images) => {
-      this.images = images;
+      this.images = images.filter((i) => !i.pending);
     });
     this.imageService.imageDeleted.subscribe((image) => this.onDeleted(image));
+    this.imageService.imageAccepted.subscribe((image) => {
+      this.onAccepted(image);
+    });
   }
 
   /**
    * When an image is deleted.
    *
-   * @param {IBase64Image} id The image to delete.
+   * @param {IBase64Image} image The image to delete.
    */
-  onDeleted(id: string) {
-    this.images = this.images.filter((i) => i.id !== id);
+  onDeleted(image: IBase64Image) {
+    this.images = this.images.filter((i) => i.id !== image.id);
+  }
+
+  /**
+   * On image accepted.
+   *
+   * @param {IBase64Image} image The accepted image.
+   */
+  onAccepted(image: IBase64Image) {
+    this.images.push(image);
   }
 
   /**
@@ -57,4 +69,3 @@ export class ImageGalleryComponent {
     }
   }
 }
-
