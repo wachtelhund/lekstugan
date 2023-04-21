@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
-import {IBase64Image} from 'src/app/pages/image-gallery/IBase64Image';
-import {ImageService} from 'src/app/services/image.service';
+import {IBase64Image} from '../../../types/IBase64Image';
+import {ImageService} from '../../../services/image.service';
 
 @Component({
   selector: 'app-post-button',

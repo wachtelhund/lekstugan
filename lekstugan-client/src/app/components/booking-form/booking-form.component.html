@@ -12,11 +12,11 @@
     </mat-form-field>
     <mat-form-field id="email">
       <mat-label>Email</mat-label>
-      <input formControlName="email" matInput>
+      <input [height]="2" formControlName="email" matInput>
     </mat-form-field>
   <mat-form-field appearance="fill" id="comment">
   <mat-label>Comment</mat-label>
-  <textarea formControlName="comment" matInput
+  <textarea maxlength="120" formControlName="comment" matInput
             cdkTextareaAutosize
             #autosize="cdkTextareaAutosize"
             cdkAutosizeMinRows="1"

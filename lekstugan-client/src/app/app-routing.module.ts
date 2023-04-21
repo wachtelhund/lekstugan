@@ -10,9 +10,7 @@ import {
 import {
   BookingFormComponent,
 } from './components/booking-form/booking-form.component';
-import {
-  EventFormComponent,
-} from './components/event-form/event-form.component';
+import {AdminComponent} from './pages/admin/admin.component';
 
 const routes: Routes = [
   {
@@ -25,7 +23,11 @@ const routes: Routes = [
   },
   {
     path: 'contact',
-    component: EventFormComponent,
+    component: BookingFormComponent,
+  },
+  {
+    path: 'admin',
+    component: AdminComponent,
   },
 ];
 

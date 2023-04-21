@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {FormGroup, FormControl, Validators} from '@angular/forms';
 import {BookingService} from '../../services/booking.service';
-import {IBooking} from './IBooking';
+import {IBooking} from '../../types/IBooking';
 
 @Component({
   selector: 'app-booking-form',
@@ -33,13 +33,12 @@ export class BookingFormComponent {
     currentDate.setHours(0, 0, 0, 0);
     const booked = this.bookingService.getUnavailableDates();
     console.log('DATE: ', date, 'BOOKED: ', booked);
-    const workingDate = date.getMonth() + 1 +
-        '/' + date.getDate() +
-        '/' + date.getFullYear();
+    const workingDate =
+      date.getMonth() + 1 + '/' + date.getDate() + '/' + date.getFullYear();
     const bookedDates = booked.map((date) => {
-      return date.getMonth() + 1 +
-          '/' + date.getDate() +
-          '/' + date.getFullYear();
+      return (
+        date.getMonth() + 1 + '/' + date.getDate() + '/' + date.getFullYear()
+      );
     });
 
     return date >= currentDate && !bookedDates.includes(workingDate);
