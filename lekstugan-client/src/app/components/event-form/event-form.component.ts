@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {EventService} from 'src/app/services/event.service';
-import {IEventData} from 'src/app/pages/events-container/IEventData';
+import {IEventData} from '../../types/IEventData';
 import {ImageHelper} from 'src/app/helpers/ImageHelper';
 
 @Component({

@@ -3,4 +3,6 @@ export interface IBooking {
   email: string;
   comment?: string;
   association: string;
+  pending?: boolean;
+  id?: string;
 }

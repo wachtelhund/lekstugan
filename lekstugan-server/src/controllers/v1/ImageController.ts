@@ -45,7 +45,7 @@ export class ImageController {
       await image.save();
       res.json(image.id);
     } catch (error) {
-      next(new RequestError('Could not post image', 400));
+      next(new RequestError('Could not post image', 404));
     }
   }
 
@@ -65,6 +65,31 @@ export class ImageController {
       const { id } = req.params;
       await Image.findByIdAndDelete(id);
       res.json({ message: 'Image deleted' });
+    } catch (error) {
+      next(new RequestError('Image not found', 404));
+    }
+  }
+
+  /**
+   * Accept an image.
+   * @param {Request} req - Request
+   * @param {Response} res - Response
+   * @param {NextFunction} next - NextFunction
+   */
+  public async accept(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    try {
+      const { id } = req.params;
+      console.log(id);
+      const image = await Image.findById(id);
+      if (image) {
+        image.pending = false;
+        await image.save();
+        res.json(image);
+      }
     } catch (error) {
       next(new RequestError('Image not found', 404));
     }
