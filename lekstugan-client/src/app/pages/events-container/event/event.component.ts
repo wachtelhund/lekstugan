@@ -1,5 +1,5 @@
-import {Component, Input} from '@angular/core';
-import {IEventData} from '../IEventData';
+import { Component, Input } from '@angular/core';
+import { IEventData } from '../../../types/IEventData';
 
 @Component({
   selector: 'app-event',

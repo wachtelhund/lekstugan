@@ -1,7 +1,7 @@
 import {EventEmitter, Injectable} from '@angular/core';
-import {IBase64Image} from '../pages/image-gallery/IBase64Image';
+import {IBase64Image} from '../types/IBase64Image';
 import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {Observable, map} from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +12,8 @@ import {Observable} from 'rxjs';
 export class ImageService {
   serverUrl = 'http://localhost:5000/api/v1';
   images: IBase64Image[] = [];
-  imageDeleted: EventEmitter<string> = new EventEmitter();
+  imageDeleted: EventEmitter<IBase64Image> = new EventEmitter();
+  imageAccepted: EventEmitter<IBase64Image> = new EventEmitter();
 
   /**
    * Constructor.
@@ -33,19 +34,30 @@ export class ImageService {
    *
    * @return {IBase64Image[]} The pending images.
    */
-  getPendingImages(): IBase64Image[] {
-    return this.images;
+  getPendingImages(): Observable<IBase64Image[]> {
+    return this.getImages().pipe(
+        map((images) => {
+          const pendingImages: IBase64Image[] = [];
+          images.forEach((image) => {
+            if (image.pending) {
+              pendingImages.push(image);
+            }
+          });
+          return pendingImages;
+        })
+    );
   }
 
   /**
    * Deletes an image.
    *
-   * @param {string} id Id of the image to delete.
-   * @return {Observable<any>} The observable.
+   * @param {IBase64Image} image Id of the image to delete.
    */
-  deleteImage(id: string): Observable<any> {
-    this.imageDeleted.emit(id);
-    return this.http.delete(this.serverUrl + '/images/' + id);
+  deleteImage(image: IBase64Image): void {
+    this.http.delete(this.serverUrl + '/images/' + image.id)
+        .subscribe(() => {
+          this.imageDeleted.emit(image);
+        });
   }
 
   /**
@@ -54,21 +66,38 @@ export class ImageService {
    * @param {IBase64Image} image The image to upload.
    */
   async uploadImage(image: IBase64Image): Promise<void> {
-    const {compressedBase64,
-      width,
-      height,
-    } = await compressImage(image.base64, 900);
+    const {compressedBase64, width, height} = await compressImage(
+        image.base64,
+        900
+    );
     const compressedImage: IBase64Image = {
       base64: compressedBase64,
       width: width,
       height: height,
     };
-    this.http.post(this.serverUrl + '/images',
-        compressedImage).subscribe((data) => {
-      this.images.push(data as IBase64Image);
-    });
+    this.http
+        .post(this.serverUrl + '/images', compressedImage)
+        .subscribe((data) => {
+          this.images.push(data as IBase64Image);
+        });
+  }
+
+  /**
+   * Changes the status of an image from pending to accepted.
+   *
+   * @param {IBase64Image} image The id of the image.
+   */
+  acceptImage(image: IBase64Image): void {
+    this.http.post(this.serverUrl +
+      '/images/' +
+      image.id +
+      '/accept', {image})
+        .subscribe((data) => {
+          this.imageAccepted.emit(data as IBase64Image);
+        });
   }
 }
+
 
 /**
  * Compresses an image to a given width and quality.
@@ -102,7 +131,8 @@ function compressImage(
       }
       ctx.drawImage(img, 0, 0, newWidth, newHeight);
       const compressedImage = canvas.toDataURL('image/jpeg', quality);
-      resolve({compressedBase64: compressedImage,
+      resolve({
+        compressedBase64: compressedImage,
         width: newWidth,
         height: newHeight,
       });

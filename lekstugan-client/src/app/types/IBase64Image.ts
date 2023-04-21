@@ -3,4 +3,5 @@ export interface IBase64Image {
   width: number;
   height: number;
   id?: string;
+  pending?: boolean;
 }

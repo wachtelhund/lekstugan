@@ -11,6 +11,11 @@
   & > * {
     margin: 1rem;
   }
+
+  app-event {
+    width: 1000px;
+    // width: min-content;
+  }
 }
 
 @media screen and (max-width: 600px) {
@@ -19,6 +24,7 @@
   }
 
   app-event {
-    width: 100%;
+    width: 100% !important;
+    // width: min-content;
   }
 }

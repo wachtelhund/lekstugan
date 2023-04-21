@@ -1,0 +1,26 @@
+<!-- <div class="side">
+  <app-event-form></app-event-form>
+</div> -->
+<div class="toggle">
+  <button (click)="onShowPending()" mat-flat-button>Show Pending</button>
+  <button (click)="onShowEvents()" mat-flat-button>Post Event</button>
+  <button (click)="onShowBookings()" mat-flat-button>Show Bookings</button>
+</div>
+<div *ngIf="pending" class="main-container">
+  <div [ngClass]="{'centered': !pendingImages.length}" *ngIf="pendingBookings.length" class="bookings-container">
+    <app-booking-request [booking]="booking" *ngFor="let booking of pendingBookings"></app-booking-request>
+  </div>
+  <div [ngClass]="{'centered': !pendingBookings.length}" *ngIf="pendingImages.length" class="image-container">
+    <app-image [imageData]="image" *ngFor="let image of pendingImages" ></app-image>
+  </div>
+</div>
+<div *ngIf="showEvents" class="events-container">
+    <h1>Events</h1>
+    <app-event-form></app-event-form>
+    <app-events-container></app-events-container>
+</div>
+<div *ngIf="showBookings">
+  <div class="approved-bookings-container">
+    <app-booking-request [booking]="booking" *ngFor="let booking of approvedBookings"></app-booking-request>
+  </div>
+</div>
