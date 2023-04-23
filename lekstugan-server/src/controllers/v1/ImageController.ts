@@ -35,6 +35,7 @@ export class ImageController {
     next: NextFunction,
   ): Promise<void> {
     try {
+      // TODO: Validate image data using Sharp
       const { base64, width, height } = req.body;
       const image = new Image<IBase64Image>({
         base64,
