@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import Image from '../../models/mongo/Image';
-import { IBase64Image } from '../../models/interfaces/IBase64Image';
+import { IBase64Image } from '../../models/types/IBase64Image';
 import { RequestError } from '../../models/errors/RequestError';
+import { ITypedRequestBody } from '../../models/types/ITypedRequestBody';
 /**
  * ImageController
  */
@@ -10,12 +11,12 @@ export class ImageController {
    * Get all images
    *
    * @param {Request} _req - Request
-   * @param {Request} res - Response
+   * @param {Response<IBase64Image[]>} res - Response
    * @param {NextFunction} _next - NextFunction
    */
   public async getAll(
     _req: Request,
-    res: Response,
+    res: Response<IBase64Image[]>,
     _next: NextFunction,
   ): Promise<void> {
     const images = await Image.find({});
@@ -25,12 +26,12 @@ export class ImageController {
   /**
    * Post a new image
    *
-   * @param {Request} req - Request
-   * @param {Request} res - Response
+   * @param {Request<IBase64Image>} req - Request
+   * @param {Response} res - Response
    * @param {NextFunction} next - NextFunction
    */
   public async post(
-    req: Request,
+    req: ITypedRequestBody<IBase64Image>,
     res: Response,
     next: NextFunction,
   ): Promise<void> {
@@ -73,13 +74,13 @@ export class ImageController {
 
   /**
    * Accept an image.
-   * @param {Request} req - Request
-   * @param {Response} res - Response
+   * @param {Request<IBase64Image>} req - Request
+   * @param {Response<IBase64Image>} res - Response
    * @param {NextFunction} next - NextFunction
    */
   public async accept(
-    req: Request,
-    res: Response,
+    req: ITypedRequestBody<IBase64Image>,
+    res: Response<IBase64Image>,
     next: NextFunction,
   ): Promise<void> {
     try {

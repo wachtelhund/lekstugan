@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {FormGroup, FormControl, Validators} from '@angular/forms';
 import {BookingService} from '../../services/booking.service';
 import {IBooking} from '../../types/IBooking';
+import {firstValueFrom} from 'rxjs';
 
 @Component({
   selector: 'app-booking-form',
@@ -14,40 +15,40 @@ import {IBooking} from '../../types/IBooking';
 export class BookingFormComponent {
   booked = false;
   invalid = false;
+  bookings: IBooking[] = [];
   bookedDate = new Date();
   bookingForm = new FormGroup({
     date: new FormControl('', Validators.required),
     email: new FormControl('', Validators.required),
     comment: new FormControl(''),
   });
+
   /**
    * Date filter.
    * @param {Date} date - The date to filter.
    * @return {boolean} - True if date is valid.
    */
-  dateFilter: (date: Date | null) => boolean = (date: Date | null): boolean => {
+  dateFilter = (date: Date | null): boolean => {
+    // TODO: Make sure filtering works for already booked dates.
     if (!date) {
       return false;
     }
     const currentDate = new Date();
     currentDate.setHours(0, 0, 0, 0);
-    const booked = this.bookingService.getUnavailableDates();
-    console.log('DATE: ', date, 'BOOKED: ', booked);
-    const workingDate =
-      date.getMonth() + 1 + '/' + date.getDate() + '/' + date.getFullYear();
-    const bookedDates = booked.map((date) => {
-      return (
-        date.getMonth() + 1 + '/' + date.getDate() + '/' + date.getFullYear()
-      );
-    });
-
-    return date >= currentDate && !bookedDates.includes(workingDate);
+    return date >= currentDate;
   };
 
   /**
    * Constructor.
    */
   constructor(private bookingService: BookingService) {}
+
+  /**
+   * On init.
+   */
+  async ngOnInit() {
+    this.bookings = await firstValueFrom(this.bookingService.getBookings());
+  }
 
   /**
    * On submit booking.
@@ -75,7 +76,7 @@ export class BookingFormComponent {
       setTimeout(() => {
         this.booked = false;
       }, 3000);
-      console.log(this.bookingService.getBookings());
+      // console.log(this.bookingService.getBookings());
     } catch (error) {
       this.invalid = true;
     }
