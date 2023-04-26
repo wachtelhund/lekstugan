@@ -1,5 +1,7 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import {IBooking} from '../types/IBooking';
+import {HttpClient} from '@angular/common/http';
+import {Observable, map} from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -10,88 +12,39 @@ import {IBooking} from '../types/IBooking';
 export class BookingService {
   bookingAccepted: EventEmitter<IBooking> = new EventEmitter();
   bookingDeleted: EventEmitter<IBooking> = new EventEmitter();
-  bookings: IBooking[] = [
-    {
-      date: new Date('2020-01-01'),
-      email: 'asl;dkasd@alk;sdj.com',
-      comment: 'asldkjasd',
-      association: 'spiik',
-      // pending: true,
-      id: '1',
-    },
-    {
-      date: new Date('2020-01-02'),
-      email: 'asl;dkasd@alk;sdj..se',
-      comment: 'asldkjasdaslkdjasdlkjlaksdjlad',
-      association: 'cnas',
-      // pending: true,
-      id: '2',
-    },
-    {
-      date: new Date('2020-01-03'),
-      email: 'asl;dkasd@alk;sdj.com',
-      comment: 'asldkjasd',
-      association: 'lambda',
-      // pending: true,
-      id: '3',
-    },
-    {
-      date: new Date('2020-01-03'),
-      email: 'asl;dkasd@alk;sdj.com',
-      comment: 'lkjaflksdfldsk sdlkfj sdfklj sldkfdlsfksjdf sdlfkjsdfl sdflkj',
-      association: 'lambda',
-      pending: true,
-      id: '4',
-    },
-    {
-      date: new Date('2020-01-03'),
-      email: 'asl;dkasd@alk;sdj.com',
-      comment: 'lkjaflksdfldsk sdlkfj sdfklj sldkfdlsfksjdf sdlfkjsdfl sdflkj',
-      association: 'lambda',
-      pending: true,
-      id: '5',
-    },
-    {
-      date: new Date('2020-01-03'),
-      email: 'asl;dkasd@alk;sdj.com',
-      comment: 'lkjaflksdfldsk sdlkfj sdfklj sldkfdlsfksjdf sdlfkjsdfl sdflkj',
-      association: 'lambda',
-      pending: true,
-      id: '6',
-    },
-    {
-      date: new Date('2020-01-03'),
-      email: 'asl;dkasd@alk;sdj.com',
-      comment: 'lkjaflksdfldsk sdlkfj sdfklj sldkfdlsfksjdf sdlfkjsdfl sdflkj',
-      association: 'lambda',
-      pending: true,
-      id: '7',
-    },
-    {
-      date: new Date('2020-01-03'),
-      email: 'asl;dkasd@alk;sdj.com',
-      comment: 'lkjaflksdfldsk sdlkfj sdfklj sldkfdlsfksjdf sdlfkjsdfl sdflkj',
-      association: 'lambda',
-      pending: true,
-      id: '8',
-    },
-    {
-      date: new Date('2020-01-03'),
-      email: 'asl;dkasd@alk;sdj.com',
-      comment: 'lkjaflksdfldsk sdlkfj sdfklj sldkfdlsfksjdf sdlfkjsdfl sdflkj',
-      association: 'lambda',
-      pending: true,
-      id: '9',
-    },
-  ];
+  serverUrl = 'http://localhost:5000/api/v1';
+  bookings: IBooking[] = [];
+  /**
+   * Constructor.
+   */
+  constructor(private http: HttpClient) {}
 
   /**
    * Get bookings.
    *
    * @return {IBooking[]} - The bookings.
    */
-  getBookings(): IBooking[] {
-    return this.bookings;
+  getBookings(): Observable<IBooking[]> {
+    return this.http.get<IBooking[]>(this.serverUrl + '/bookings');
+  }
+
+  /**
+   * Gets the pending bookings.
+   *
+   * @return {IBooking[]} The pending bookings.
+   */
+  getPendingBookings(): Observable<IBooking[]> {
+    return this.getBookings().pipe(
+        map((bookings) => {
+          const pendingBookings: IBooking[] = [];
+          bookings.forEach((booking) => {
+            if (booking.pending) {
+              pendingBookings.push(booking);
+            }
+          });
+          return pendingBookings;
+        })
+    );
   }
 
   /**
@@ -100,9 +53,11 @@ export class BookingService {
    * @param {IBooking} booking - The booking to post.
    */
   postBooking(booking: IBooking): void {
-    booking.pending = true;
-    booking.id = Math.random().toString(36).substr(2, 9);
-    this.bookings.push(booking);
+    this.http
+        .post(this.serverUrl + '/bookings', booking)
+        .subscribe((data) => {
+          this.bookings.push(data as IBooking);
+        });
   }
 
   /**
@@ -120,8 +75,13 @@ export class BookingService {
    * @param {IBooking} booking - The booking to accept.
    */
   acceptBooking(booking: IBooking): void {
-    booking.pending = false;
-    this.bookingAccepted.emit(booking);
+    this.http.post(this.serverUrl +
+      '/bookings/' +
+      booking.id +
+      '/accept', {booking})
+        .subscribe((data) => {
+          this.bookingAccepted.emit(data as IBooking);
+        });
   }
 
   /**
@@ -130,8 +90,9 @@ export class BookingService {
    * @param {IBooking} booking - The booking to delete.
    */
   deleteBooking(booking: IBooking): void {
-    const index = this.bookings.indexOf(booking);
-    this.bookings.splice(index, 1);
-    this.bookingDeleted.emit(booking);
+    this.http.delete(this.serverUrl + '/bookings/' + booking.id)
+        .subscribe(() => {
+          this.bookingDeleted.emit(booking);
+        });
   }
 }
