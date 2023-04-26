@@ -107,7 +107,7 @@ event-form {
 .centered {
   right: auto;
   left: auto;
-  overflow-y: unset;
+  overflow-y: auto;
 }
 
 @media screen and (max-width: 600px) {
