@@ -37,12 +37,17 @@ export class AdminComponent {
     this.imageService.getPendingImages().subscribe((images) => {
       this.pendingImages.push(...images);
     });
-    this.bookingService.getBookings().forEach((booking) => {
-      if (booking.pending) {
-        this.pendingBookings.push(booking);
-      } else {
-        this.approvedBookings.push(booking);
-      }
+    // this.bookingService.getPendingBookings().subscribe((bookings) => {
+    //   this.pendingBookings.push(...bookings);
+    // });
+    this.bookingService.getBookings().subscribe((bookings) => {
+      bookings.forEach((booking) => {
+        if (!booking.pending) {
+          this.approvedBookings.push(booking);
+        } else {
+          this.pendingBookings.push(booking);
+        }
+      });
     });
     this.events = this.eventService.getEvents();
     this.imageService.imageDeleted.subscribe((image) => {

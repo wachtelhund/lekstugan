@@ -1,18 +1,23 @@
 import mongoose from 'mongoose';
-import { IBase64Image } from '../types/IBase64Image';
+import { IBooking } from '../types/IBooking';
 
-const schema = new mongoose.Schema<IBase64Image>(
+const schema = new mongoose.Schema<IBooking>(
   {
-    base64: {
+    date: {
+      type: Date,
+      required: true,
+      unique: true,
+    },
+    email: {
       type: String,
       required: true,
     },
-    width: {
-      type: Number,
-      required: true,
+    comment: {
+      type: String,
+      maxlength: 100,
     },
-    height: {
-      type: Number,
+    association: {
+      type: String,
       required: true,
     },
     pending: {
@@ -43,6 +48,6 @@ schema.pre('save', async function () {
   this.id = this._id.toHexString();
 });
 
-const Base64Image = mongoose.model<IBase64Image>('Image', schema);
+const booking = mongoose.model<IBooking>('Booking', schema);
 
-export default Base64Image;
+export default booking;
