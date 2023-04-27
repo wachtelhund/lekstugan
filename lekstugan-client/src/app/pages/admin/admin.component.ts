@@ -37,9 +37,12 @@ export class AdminComponent {
     this.imageService.getPendingImages().subscribe((images) => {
       this.pendingImages.push(...images);
     });
-    // this.bookingService.getPendingBookings().subscribe((bookings) => {
-    //   this.pendingBookings.push(...bookings);
-    // });
+    this.imageService.imageDeleted.subscribe((image) => {
+      this.onImageDeleted(image);
+    });
+    this.imageService.imageAccepted.subscribe((image) => {
+      this.onImageAccepted(image);
+    });
     this.bookingService.getBookings().subscribe((bookings) => {
       bookings.forEach((booking) => {
         if (!booking.pending) {
@@ -48,13 +51,6 @@ export class AdminComponent {
           this.pendingBookings.push(booking);
         }
       });
-    });
-    this.events = this.eventService.getEvents();
-    this.imageService.imageDeleted.subscribe((image) => {
-      this.onImageDeleted(image);
-    });
-    this.imageService.imageAccepted.subscribe((image) => {
-      this.onImageAccepted(image);
     });
     this.bookingService.bookingAccepted.subscribe((booking) => {
       this.onBookingAccepted(booking);
@@ -115,7 +111,6 @@ export class AdminComponent {
     this.approvedBookings = this.approvedBookings.filter((b) => {
       return b.id !== booking.id;
     });
-    console.log(booking.id);
   }
 
   /**
