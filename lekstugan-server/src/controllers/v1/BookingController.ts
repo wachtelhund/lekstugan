@@ -67,7 +67,7 @@ export class BookingController {
       const { id } = req.params;
       console.log(id);
       await Booking.findByIdAndDelete(id);
-      res.json({ message: 'Image deleted' });
+      res.json({ message: 'Booking deleted' });
     } catch (error) {
       next(new RequestError('Could not find booking', 404));
     }
