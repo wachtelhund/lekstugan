@@ -40,7 +40,9 @@ import {
 } from './components/UI/post-button/post-button.component';
 import {EventFormComponent} from './components/event-form/event-form.component';
 import {AdminComponent} from './pages/admin/admin.component';
-import { BookingRequestComponent } from './components/booking-request/booking-request.component';
+import {
+  BookingRequestComponent,
+} from './components/booking-request/booking-request.component';
 @NgModule({
   declarations: [
     AppComponent,
