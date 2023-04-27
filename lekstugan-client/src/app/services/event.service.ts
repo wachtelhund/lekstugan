@@ -1,5 +1,7 @@
-import {Injectable} from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 import {IEventData} from '../types/IEventData';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -8,40 +10,22 @@ import {IEventData} from '../types/IEventData';
  * EventService
  */
 export class EventService {
-  events: IEventData[] = [
-    {
-      id: Math.floor(Math.random() * 100),
-      title: 'Event',
-      description: 'This is the first event',
-      date: new Date('2020-01-01'),
-      image: 'https://picsum.photos/500/600',
-      link: 'https://www.google.com',
-    },
-    {
-      id: Math.floor(Math.random() * 100),
-      title: 'Event',
-      description: 'This is the second event',
-      date: new Date('2020-01-01'),
-      image: 'https://picsum.photos/1200/600',
-      link: 'https://www.google.com',
-    },
-    {
-      id: Math.floor(Math.random() * 100),
-      title: 'Event',
-      description: 'This is the third event',
-      date: new Date('2020-01-01'),
-      image: 'https://picsum.photos/1200/600',
-      link: 'https://www.google.com',
-    },
-  ];
+  serverUrl = 'http://localhost:5000/api/v1';
+  eventPosted: EventEmitter<IEventData> = new EventEmitter();
+  eventDeleted: EventEmitter<IEventData> = new EventEmitter();
+
+  /**
+   * Constructor
+   */
+  constructor(private http: HttpClient) {}
 
   /**
    * Gets the events.
    *
    * @return {IEventData[]} The events.
    */
-  getEvents(): IEventData[] {
-    return this.events;
+  getEvents(): Observable<IEventData[]> {
+    return this.http.get<IEventData[]>(this.serverUrl + '/events');
   }
 
   /**
@@ -50,6 +34,23 @@ export class EventService {
    * @param {IEventData} event The event to post.
    */
   postEvent(event: IEventData) {
-    this.events.push(event);
+    this.http
+        .post(this.serverUrl + '/events', event)
+        .subscribe((data) => {
+          this.eventPosted.emit(data as IEventData);
+        });
+  }
+
+  /**
+   * Deletes an event.
+   *
+   * @param {IEventData} event The event to delete.
+   */
+  deleteEvent(event: IEventData) {
+    this.http
+        .delete(this.serverUrl + '/events/' + event.id)
+        .subscribe(() => {
+          this.eventDeleted.emit(event as IEventData);
+        });
   }
 }

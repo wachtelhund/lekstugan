@@ -40,17 +40,7 @@ export class EventFormComponent {
     }
     const currentDate = new Date();
     currentDate.setHours(0, 0, 0, 0);
-    const events = this.eventService.getEvents();
-    const workingDate = date.getMonth() + 1 +
-        '/' + date.getDate() +
-        '/' + date.getFullYear();
-    const bookedDates = events.map((event) => {
-      return event.date.getMonth() + 1 +
-          '/' + event.date.getDate() +
-          '/' + event.date.getFullYear();
-    });
-
-    return date >= currentDate && !bookedDates.includes(workingDate);
+    return date >= currentDate;
   };
 
   /**
@@ -86,7 +76,7 @@ export class EventFormComponent {
         throw new Error('Invalid date');
       }
       this.eventService.postEvent({
-        id: Math.floor(Math.random() * 100),
+        // id: Math.floor(Math.random() * 100),
         title,
         description,
         date: new Date(date),
