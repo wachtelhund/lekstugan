@@ -2,6 +2,7 @@ import {EventEmitter, Injectable} from '@angular/core';
 import {IEventData} from '../types/IEventData';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +11,7 @@ import {Observable} from 'rxjs';
  * EventService
  */
 export class EventService {
-  serverUrl = 'http://localhost:5000/api/v1';
+  serverUrl = environment.apiURL;
   eventPosted: EventEmitter<IEventData> = new EventEmitter();
   eventDeleted: EventEmitter<IEventData> = new EventEmitter();
 
