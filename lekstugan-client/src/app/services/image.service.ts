@@ -2,6 +2,7 @@ import {EventEmitter, Injectable} from '@angular/core';
 import {IBase64Image} from '../types/IBase64Image';
 import {HttpClient} from '@angular/common/http';
 import {Observable, map} from 'rxjs';
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +11,7 @@ import {Observable, map} from 'rxjs';
  * The image service.
  */
 export class ImageService {
-  serverUrl = 'http://localhost:5000/api/v1';
+  serverUrl = environment.apiURL;
   images: IBase64Image[] = [];
   imageDeleted: EventEmitter<IBase64Image> = new EventEmitter();
   imageAccepted: EventEmitter<IBase64Image> = new EventEmitter();
@@ -54,10 +55,9 @@ export class ImageService {
    * @param {IBase64Image} image Id of the image to delete.
    */
   deleteImage(image: IBase64Image): void {
-    this.http.delete(this.serverUrl + '/images/' + image.id)
-        .subscribe(() => {
-          this.imageDeleted.emit(image);
-        });
+    this.http.delete(this.serverUrl + '/images/' + image.id).subscribe(() => {
+      this.imageDeleted.emit(image);
+    });
   }
 
   /**
@@ -88,16 +88,13 @@ export class ImageService {
    * @param {IBase64Image} image The id of the image.
    */
   acceptImage(image: IBase64Image): void {
-    this.http.post(this.serverUrl +
-      '/images/' +
-      image.id +
-      '/accept', {image})
+    this.http
+        .post(this.serverUrl + '/images/' + image.id + '/accept', {image})
         .subscribe((data) => {
           this.imageAccepted.emit(data as IBase64Image);
         });
   }
 }
-
 
 /**
  * Compresses an image to a given width and quality.

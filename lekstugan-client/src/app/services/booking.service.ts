@@ -2,6 +2,7 @@ import {EventEmitter, Injectable} from '@angular/core';
 import {IBooking} from '../types/IBooking';
 import {HttpClient} from '@angular/common/http';
 import {Observable, map} from 'rxjs';
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +13,7 @@ import {Observable, map} from 'rxjs';
 export class BookingService {
   bookingAccepted: EventEmitter<IBooking> = new EventEmitter();
   bookingDeleted: EventEmitter<IBooking> = new EventEmitter();
-  serverUrl = 'http://localhost:5000/api/v1';
+  serverUrl = environment.apiURL;
   bookings: IBooking[] = [];
   /**
    * Constructor.
