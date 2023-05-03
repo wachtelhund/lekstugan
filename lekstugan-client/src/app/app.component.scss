@@ -1,6 +1,38 @@
 @import url('https://fonts.googleapis.com/css2?family=Delicious+Handrawn&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa&family=Delicious+Handrawn&display=swap');
 
+.links {
+  transition: all 500ms;
+  position: absolute;
+  width: 100%;
+  top: 100px;
+  display: flex;
+  flex-direction: column;
+  z-index: 5000;
+
+  & > .headerLink {
+    font-size: 20px;
+    padding: 20px;
+    border-radius: 0;
+    border-top: 1px solid #000000;
+    background-color: #353535;
+  }
+
+  & > .toggler {
+    background-color: rgba(255, 255, 255, 0.716);
+    border: none;
+    padding: 10px;
+
+    & > * {
+      transform: scale(1.5);
+    }
+  }
+}
+
+.hiddenLinks {
+  transform: translate(0, -80%);
+}
+
 .main-container {
   position: absolute;
   top: 0;
@@ -75,7 +107,7 @@ header {
 
 #mobile-header {
   position: absolute;
-  z-index: 100;
+  z-index: 10000;
 }
 
 #desktop-header {

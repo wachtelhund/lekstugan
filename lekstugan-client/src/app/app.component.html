@@ -1,18 +1,17 @@
 <mat-drawer-container class="main-container">
-  <mat-drawer #drawer class="sidenav-container" mode="over">
-        <button class="navLink" color="primary" routerLink="/" mat-flat-button><mat-icon>home</mat-icon>Hem</button>
-        <button class="navLink" color="primary" routerLink="/gallery" mat-flat-button><mat-icon>photo_library</mat-icon>Fotogalleri</button>
-        <button class="navLink" color="primary" routerLink="/events" mat-flat-button><mat-icon>event</mat-icon>Events</button>
-        <button class="navLink" color="primary" routerLink="/contact" mat-flat-button><mat-icon>mail</mat-icon>Kontakt</button>
-        <button class="navLink" color="primary" routerLink="/admin" mat-flat-button><mat-icon>admin_panel_settings</mat-icon>Admin</button>
-  </mat-drawer>
   <header *ngIf="isMobile" id="mobile-header">
     Lekstugan
-    <button (click)="drawer.toggle()" [ngClass]="{'sticky': isSticky }" mat-icon-button class="menu-icon"
-      aria-label="Example icon-button with menu icon">
-      <mat-icon color="primary">menu</mat-icon>
-    </button>
   </header>
+  <div *ngIf="isMobile">
+    <div #links class="links" [ngClass]="{'hiddenLinks': !linksActive}">
+        <button (click)="linksActive = false" class="headerLink" color="primary" routerLink="/" mat-flat-button><mat-icon>home</mat-icon>Hem</button>
+        <button (click)="linksActive = false" class="headerLink" color="primary" routerLink="/gallery" mat-flat-button><mat-icon>photo_library</mat-icon>Fotogalleri</button>
+        <button (click)="linksActive = false" class="headerLink" color="primary" routerLink="/events" mat-flat-button><mat-icon>event</mat-icon>Events</button>
+        <button (click)="linksActive = false" class="headerLink" color="primary" routerLink="/contact" mat-flat-button><mat-icon>mail</mat-icon>Kontakt</button>
+        <button (click)="linksActive = false" class="headerLink" color="primary" routerLink="/admin" mat-flat-button><mat-icon>admin_panel_settings</mat-icon>Admin</button>
+        <button  [ngStyle]="linksActive ? {'transform': 'rotateX(180deg)'} : {'transform': 'rotateX(0deg)'}" (click)="toggleLinks()" class="toggler"><mat-icon>expand_more</mat-icon></button>
+    </div>
+  </div>
   <header *ngIf="!isMobile" id="desktop-header">
     <h2>
       Lekstugan
