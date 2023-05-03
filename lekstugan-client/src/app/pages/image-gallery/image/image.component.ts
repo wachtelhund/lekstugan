@@ -7,6 +7,7 @@ import {
 } from '@angular/material/dialog';
 import {IBase64Image} from '../../../types/IBase64Image';
 import {ImageService} from '../../../services/image.service';
+import {DeviceDetectorService} from 'ngx-device-detector';
 
 @Component({
   selector: 'image-modal',
@@ -53,26 +54,31 @@ export class ImageComponent {
   imageSize = '';
   imageUrl = '';
   isLoading = false;
+  isMobile = false;
   @Input() imageData!: IBase64Image;
 
   /**
    * Constructor.
    */
   constructor(private http: HttpClient, public modal: MatDialog,
-    private imageService: ImageService) {}
+    private imageService: ImageService,
+    private deviceService: DeviceDetectorService) {}
 
   /**
    * Opens the modal.
    */
   onOpenModal() {
-    this.modal.open(ImageModal, {
-      data: {
-        base64: this.imageData.base64,
-        id: this.imageData.id,
-        width: this.imageData.width,
-        height: this.imageData.height,
-      } as IBase64Image,
-    });
+    console.log(this.deviceService.isMobile());
+    if (!this.deviceService.isMobile()) {
+      this.modal.open(ImageModal, {
+        data: {
+          base64: this.imageData.base64,
+          id: this.imageData.id,
+          width: this.imageData.width,
+          height: this.imageData.height,
+        } as IBase64Image,
+      });
+    }
   }
 
   /**
