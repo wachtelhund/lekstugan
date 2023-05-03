@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {DeviceDetectorService} from 'ngx-device-detector';
 
 @Component({
@@ -9,7 +9,7 @@ import {DeviceDetectorService} from 'ngx-device-detector';
 /**
  * The main component of the application.
  */
-export class AppComponent {
+export class AppComponent implements OnInit {
   isSticky = false;
   title = 'lekstugan-client';
   isMobile = false;
@@ -19,7 +19,12 @@ export class AppComponent {
    *
    * @param {DeviceDetectorService} deviceService The device service.
    */
-  constructor(private deviceService: DeviceDetectorService) {
+  constructor(private deviceService: DeviceDetectorService) {}
+
+  /**
+   * On init.
+   */
+  ngOnInit() {
     this.setIsMobile();
   }
 

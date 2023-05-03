@@ -15,6 +15,7 @@
   margin-top: 50px;
   height: min-content;
   background-color: transparent;
+  z-index: 1000;
 }
 
 mat-drawer {
@@ -63,6 +64,7 @@ header {
 
 #mobile-header {
   position: absolute;
+  z-index: 100;
 }
 
 

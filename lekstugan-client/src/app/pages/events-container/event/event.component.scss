@@ -45,6 +45,7 @@ mat-card-title {
 
 @media screen and (max-width: 600px) {
   .event-card {
+    min-width: unset;
     width: 100%;
   }
 
