@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {DeviceDetectorService} from 'ngx-device-detector';
 
 @Component({
@@ -13,6 +13,9 @@ export class AppComponent implements OnInit {
   isSticky = false;
   title = 'lekstugan-client';
   isMobile = false;
+  linksActive = false;
+  isActive = false;
+  @ViewChild('links') links!: ElementRef;
 
   /**
    * Constructor.
@@ -25,15 +28,15 @@ export class AppComponent implements OnInit {
    * On init.
    */
   ngOnInit() {
-    this.setIsMobile();
-  }
-
-  /**
-   * Sets the isMobile property.
-   */
-  setIsMobile() {
     if (this.deviceService.isMobile() || this.deviceService.isTablet()) {
       this.isMobile = true;
     }
+  }
+
+  /**
+   * Toggles the links.
+   */
+  toggleLinks() {
+    this.linksActive = !this.linksActive;
   }
 }
