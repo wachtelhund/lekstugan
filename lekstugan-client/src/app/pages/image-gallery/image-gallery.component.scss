@@ -2,7 +2,9 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
 }
-
+app-image {
+  max-height: 500px;
+}
 #post-btn {
   bottom: 1rem;
   left: 1rem;
@@ -19,4 +21,3 @@
     left: 5rem;
   }
 }
-  
