@@ -44,6 +44,7 @@ import {
   BookingRequestComponent,
 } from './components/booking-request/booking-request.component';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 @NgModule({
   declarations: [
     AppComponent,
@@ -60,6 +61,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
   ],
   imports: [
     BrowserModule,
+    InfiniteScrollModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MatToolbarModule,

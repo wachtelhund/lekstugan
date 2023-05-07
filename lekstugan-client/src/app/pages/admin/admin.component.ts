@@ -34,9 +34,14 @@ export class AdminComponent {
    * Fetches the pending images on init.
    */
   ngOnInit(): void {
-    this.imageService.getPendingImages().subscribe((images) => {
-      this.pendingImages.push(...images);
-    });
+    // this.imageService.getImages();
+    // this.imageService.getPendingImages().subscribe((images) => {
+    //   this.pendingImages.push(...images);
+    // });
+    this.imageService.getImages(undefined, undefined, true)
+        .subscribe((images) => {
+          this.pendingImages.push(...images);
+        });
     this.imageService.imageDeleted.subscribe((image) => {
       this.onImageDeleted(image);
     });

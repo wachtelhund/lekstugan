@@ -10,16 +10,36 @@ export class ImageController {
   /**
    * Get all images
    *
-   * @param {Request} _req - Request
+   * @param {Request} req - Request
    * @param {Response<IBase64Image[]>} res - Response
    * @param {NextFunction} _next - NextFunction
    */
   public async getAll(
-    _req: Request,
+    req: Request,
     res: Response<IBase64Image[]>,
     _next: NextFunction,
   ): Promise<void> {
-    const images = await Image.find({});
+
+    const limit = parseInt(req.query.limit as string) || undefined;
+    const offset = parseInt(req.query.offset as string) || undefined;
+    // const query = Image.find({});
+
+    const pending = req.query.pending === 'true';
+
+    const query = Image.find({ pending: pending });
+
+    if (limit !== undefined) {
+      query.limit(limit);
+      console.log(limit);
+    }
+
+    if (offset !== undefined) {
+      query.skip(offset);
+      console.log(offset);
+    }
+
+    const images = await query.exec();
+
     res.json(images);
   }
 
