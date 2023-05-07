@@ -13,12 +13,21 @@ class ImageController {
     /**
      * Get all images
      *
-     * @param {Request} _req - Request
+     * @param {Request} req - Request
      * @param {Response<IBase64Image[]>} res - Response
      * @param {NextFunction} _next - NextFunction
      */
-    async getAll(_req, res, _next) {
-        const images = await Image_1.default.find({});
+    async getAll(req, res, _next) {
+        const limit = parseInt(req.query.limit) || undefined;
+        const offset = parseInt(req.query.offset) || undefined;
+        const query = Image_1.default.find({});
+        if (limit !== undefined) {
+            query.limit(limit);
+        }
+        if (offset !== undefined) {
+            query.skip(offset);
+        }
+        const images = await query.exec();
         res.json(images);
     }
     /**

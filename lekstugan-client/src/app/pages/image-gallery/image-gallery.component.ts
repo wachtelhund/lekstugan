@@ -1,4 +1,5 @@
-import {Component} from '@angular/core';
+import {Component, ElementRef, ViewChild} from '@angular/core';
+
 import {HttpClient} from '@angular/common/http';
 import {IBase64Image} from '../../types/IBase64Image';
 import {ImageService} from '../../services/image.service';
@@ -16,19 +17,64 @@ export class ImageGalleryComponent {
   imageSizes: string[] = [];
   amount = 2;
   images: IBase64Image[] = [];
+  limit = 10;
+  offset = 0;
+  loading = false;
+  @ViewChild('scrollTarget', {static: true}) scrollTarget!: ElementRef;
+  private intersectionObserver!: IntersectionObserver;
+  allImagesLoaded = false;
 
   /**
    * Constructor.
    *
    * @param {HttpClient} http The http client.
    */
-  constructor(private http: HttpClient, private imageService: ImageService) {
-    this.imageService.getImages().subscribe((images) => {
-      this.images = images.filter((i) => !i.pending);
+  constructor(private http: HttpClient, private imageService: ImageService) {}
+
+  /**
+   * On init.
+   */
+  ngOnInit() {
+    this.loadImages();
+    this.intersectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          this.onScroll();
+        }
+      });
     });
-    this.imageService.imageDeleted.subscribe((image) => this.onDeleted(image));
-    this.imageService.imageAccepted.subscribe((image) => {
-      this.onAccepted(image);
+
+    this.intersectionObserver.observe(this.scrollTarget.nativeElement);
+  }
+
+  /**
+   * On destroy.
+   */
+  ngOnDestroy() {
+    this.intersectionObserver.disconnect();
+  }
+
+
+  /**
+   * Loads the images.
+   */
+  loadImages() {
+    console.log('loadimages()');
+    if (this.allImagesLoaded) {
+      return;
+    }
+
+    this.loading = true;
+    this.imageService.getImages(this.limit, this.offset).subscribe((images) => {
+      console.log('images: ', images);
+      if (images.length < this.limit) {
+        this.allImagesLoaded = true;
+        this.intersectionObserver.disconnect();
+      } else {
+        this.offset += this.limit;
+      }
+      this.images.push(...images.filter((i) => !i.pending));
+      this.loading = false;
     });
   }
 
@@ -48,6 +94,16 @@ export class ImageGalleryComponent {
    */
   onAccepted(image: IBase64Image) {
     this.images.push(image);
+  }
+
+  /**
+   * On scroll. Loads more images.
+   */
+  onScroll(): void {
+    console.log('scroll');
+    if (!this.loading) {
+      this.loadImages();
+    }
   }
 
   /**
