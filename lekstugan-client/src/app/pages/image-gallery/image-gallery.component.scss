@@ -3,7 +3,7 @@
   grid-template-columns: repeat(3, 1fr);
 }
 app-image {
-  max-height: 500px;
+  max-height: 800px;
 }
 #post-btn {
   bottom: 1rem;
@@ -19,5 +19,9 @@ app-image {
 
   #post-btn {
     left: 1rem;
+  } 
+
+  app-image {
+    max-height: 500px;
   }
 }
