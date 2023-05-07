@@ -43,6 +43,7 @@ import {AdminComponent} from './pages/admin/admin.component';
 import {
   BookingRequestComponent,
 } from './components/booking-request/booking-request.component';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 @NgModule({
   declarations: [
     AppComponent,
@@ -78,6 +79,7 @@ import {
     MatInputModule,
     ReactiveFormsModule,
     MatCheckboxModule,
+    MatSnackBarModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
