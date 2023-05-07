@@ -1,8 +1,10 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import {IBase64Image} from '../types/IBase64Image';
 import {HttpClient} from '@angular/common/http';
-import {Observable, map} from 'rxjs';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 import {environment} from '../../environments/environment';
+import {BehaviorSubject} from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +17,8 @@ export class ImageService {
   images: IBase64Image[] = [];
   imageDeleted: EventEmitter<IBase64Image> = new EventEmitter();
   imageAccepted: EventEmitter<IBase64Image> = new EventEmitter();
+  fetchingImages = new BehaviorSubject<boolean>(false);
+  imagesSubject = new BehaviorSubject<IBase64Image[]>([]);
 
   /**
    * Constructor.
@@ -22,12 +26,54 @@ export class ImageService {
   constructor(private http: HttpClient) {}
 
   /**
-   * Gets the accepted images.
+   * Fetches the images.
    *
-   * @return {IBase64Image[]} The images.
+   * @param {number} limit - The number of images to fetch.
+   * @param {number} offset - The offset.
+   * @param {boolean} pending - Whether to fetch pending images or not.
+   *
+   * @return {Observable<IBase64Image[]>} The images.
    */
-  getImages(): Observable<IBase64Image[]> {
-    return this.http.get<IBase64Image[]>(this.serverUrl + '/images');
+  getImages(
+      limit?: number,
+      offset?: number,
+      pending?: boolean
+  ): Observable<IBase64Image[]> {
+    let url = this.serverUrl + '/images';
+    if (limit !== undefined && offset !== undefined) {
+      url += `?limit=${limit}&offset=${offset}`;
+    }
+    if (pending !== undefined) {
+      const separator = url.includes('?') ? '&' : '?';
+      url += `${separator}pending=${pending}`;
+    }
+    return this.http.get<IBase64Image[]>(url);
+  }
+
+
+  /**
+   * Loads the images sequentially.
+   *
+   * @param {IBase64Image} images - The images to load.
+   * @param {number} index - The index of the image to load.
+   */
+  private loadImagesSequentially(images: IBase64Image[],
+      index = 0): void {
+    if (index < images.length) {
+      const image = images[index];
+      const img = new Image();
+      img.src = image.base64;
+      img.onload = () => {
+        this.images.push(image);
+        this.imagesSubject.next(this.images);
+        this.loadImagesSequentially(images, index + 1);
+      };
+      img.onerror = () => {
+        this.loadImagesSequentially(images, index + 1);
+      };
+    } else {
+      this.fetchingImages.next(false);
+    }
   }
 
   /**
@@ -36,7 +82,7 @@ export class ImageService {
    * @return {IBase64Image[]} The pending images.
    */
   getPendingImages(): Observable<IBase64Image[]> {
-    return this.getImages().pipe(
+    return this.imagesSubject.asObservable().pipe(
         map((images) => {
           const pendingImages: IBase64Image[] = [];
           images.forEach((image) => {
