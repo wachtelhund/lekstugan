@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {IBase64Image} from '../../../types/IBase64Image';
 import {ImageService} from '../../../services/image.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-post-button',
@@ -16,7 +17,8 @@ export class PostButtonComponent {
   /**
    * Constructor.
    */
-  constructor(private imageService: ImageService) { }
+  constructor(private imageService: ImageService,
+    private snackBar: MatSnackBar) { }
 
   /**
    * On file input.
@@ -53,9 +55,25 @@ export class PostButtonComponent {
           width: image.width,
           height: image.height,
         } as IBase64Image);
+        this.snackBar.openFromComponent(PostConfirmDialogComponent, {
+          duration: 5000,
+        });
         resolve(image);
       };
       image.onerror = (error) => reject(error);
     });
   }
 }
+
+@Component({
+  selector: 'post-confirm-dialog',
+  template: `
+    <span class="post-confirm">
+      Image uploaded successfully! It will be reviewed by the Lekstugan crew!
+    <span>
+  `,
+})
+/**
+ * Post confirm dialog component.
+ */
+export class PostConfirmDialogComponent {}
