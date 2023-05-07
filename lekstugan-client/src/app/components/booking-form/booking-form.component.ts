@@ -3,6 +3,7 @@ import {FormGroup, FormControl, Validators} from '@angular/forms';
 import {BookingService} from '../../services/booking.service';
 import {IBooking} from '../../types/IBooking';
 import {firstValueFrom} from 'rxjs';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-booking-form',
@@ -41,7 +42,8 @@ export class BookingFormComponent {
   /**
    * Constructor.
    */
-  constructor(private bookingService: BookingService) {}
+  constructor(private bookingService: BookingService,
+    private snackBar: MatSnackBar) {}
 
   /**
    * On init.
@@ -70,15 +72,30 @@ export class BookingFormComponent {
         comment,
         association: 'spiik',
       } as IBooking);
+      this.snackBar.openFromComponent(BookingConfirmDialog, {
+        duration: 10000,
+      });
       this.bookedDate = new Date(date);
       this.bookingForm.reset();
       this.booked = true;
       setTimeout(() => {
         this.booked = false;
-      }, 3000);
-      // console.log(this.bookingService.getBookings());
+      }, 10000);
     } catch (error) {
       this.invalid = true;
     }
   }
 }
+@Component({
+  selector: 'booking-confirm-dialog',
+  template: `
+    <span class="booking-confirm">
+      Your booking has been requested and will be reviewed shortly.
+    <span>
+  `,
+})
+/**
+ * Post confirm dialog component.
+ */
+export class BookingConfirmDialog {}
+
