@@ -1,7 +1,7 @@
-import { Request, Response, NextFunction } from 'express';
-import { IBooking } from '../../models/types/IBooking';
-import { ITypedRequestBody } from '../../models/types/ITypedRequestBody';
-import { RequestError } from '../../models/errors/RequestError';
+import {Request, Response, NextFunction} from 'express';
+import {IBooking} from '../../models/types/IBooking';
+import {ITypedRequestBody} from '../../models/types/ITypedRequestBody';
+import {RequestError} from '../../models/errors/RequestError';
 import Booking from '../../models/mongo/Booking';
 
 /**
@@ -16,9 +16,9 @@ export class BookingController {
    * @param {NextFunction} _next - NextFunction
    */
   async getAll(
-    _req: Request,
-    res: Response<IBooking[]>,
-    _next: NextFunction,
+      _req: Request,
+      res: Response<IBooking[]>,
+      _next: NextFunction,
   ): Promise<void> {
     try {
       const bookings = await Booking.find({});
@@ -36,9 +36,9 @@ export class BookingController {
    * @param {NextFunction} next - NextFunction
    */
   async post(
-    req: ITypedRequestBody<IBooking>,
-    res: Response,
-    next: NextFunction,
+      req: ITypedRequestBody<IBooking>,
+      res: Response,
+      next: NextFunction,
   ): Promise<void> {
     try {
       const booking = new Booking<IBooking>({
@@ -64,10 +64,10 @@ export class BookingController {
    */
   async delete(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const { id } = req.params;
+      const {id} = req.params;
       console.log(id);
       await Booking.findByIdAndDelete(id);
-      res.json({ message: 'Booking deleted' });
+      res.json({message: 'Booking deleted'});
     } catch (error) {
       next(new RequestError('Could not find booking', 404));
     }
@@ -81,12 +81,12 @@ export class BookingController {
    * @param {NextFunction} next - NextFunction
    */
   public async accept(
-    req: ITypedRequestBody<IBooking>,
-    res: Response<IBooking>,
-    next: NextFunction,
+      req: ITypedRequestBody<IBooking>,
+      res: Response<IBooking>,
+      next: NextFunction,
   ): Promise<void> {
     try {
-      const { id } = req.params;
+      const {id} = req.params;
       const booking = await Booking.findById(id);
       if (booking) {
         booking.pending = false;

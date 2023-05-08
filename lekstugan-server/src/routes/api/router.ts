@@ -1,6 +1,6 @@
 import express from 'express';
-import { router as v1Router } from './v1/router';
-import { RequestError } from '../../models/errors/RequestError';
+import {router as v1Router} from './v1/router';
+import {RequestError} from '../../models/errors/RequestError';
 
 export const router = express.Router();
 
