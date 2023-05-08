@@ -21,11 +21,12 @@ export class ImageController {
   ): Promise<void> {
     const limit = parseInt(req.query.limit as string) || undefined;
     const offset = parseInt(req.query.offset as string) || undefined;
-    // const query = Image.find({});
 
     const pending = req.query.pending === 'true';
 
     const query = Image.find({pending: pending});
+
+    query.sort({createdAt: -1});
 
     if (limit !== undefined) {
       query.limit(limit);
