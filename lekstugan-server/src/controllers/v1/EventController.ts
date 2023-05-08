@@ -67,7 +67,7 @@ export class EventController {
     try {
       const {id} = req.params;
       await Event.findByIdAndDelete(id);
-      res.json({message: 'Event deleted'});
+      res.json({message: 'Event deleted', id: id, status: 'success'});
     } catch (error) {
       next(new RequestError('Could not delete event', 400));
     }
