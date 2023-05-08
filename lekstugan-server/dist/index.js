@@ -34,13 +34,13 @@ if (process.env.DB_CONNECTION_STRING !== undefined) {
             return res.status(err.status).json({
                 status: err.status,
                 message: err.message,
-                cause: err.cause
-                    ? {
+                cause: err.cause ?
+                    {
                         status: err.cause.status,
                         message: err.cause.message,
                         stack: err.cause.stack,
-                    }
-                    : null,
+                    } :
+                    null,
                 stack: err.stack,
             });
         };

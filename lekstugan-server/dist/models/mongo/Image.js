@@ -24,11 +24,13 @@ const schema = new mongoose_1.default.Schema({
 }, {
     timestamps: true,
     /**
-     * Performs a transformation of the resulting object to remove sensitive information.
-     *
-     * @param {object} doc - The mongoose document which is being converted.
-     * @param {object} ret - The plain object representation which has been converted.
-     */
+   * Performs a transformation of the resulting
+   * object to remove sensitive information.
+   *
+   * @param {object} doc - The mongoose document which is being converted.
+   * @param {object} ret - The plain object representation
+   * which has been converted.
+   */
     toJSON: {
         transform: (_doc, ret) => {
             ret.id = ret._id;

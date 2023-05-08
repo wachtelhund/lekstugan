@@ -1,7 +1,7 @@
 import express from 'express';
-import { router as imageRouter } from './imageRouter';
-import { router as bookingsRouter } from './bookingRouter';
-import { router as eventsRouter } from './eventRouter';
+import {router as imageRouter} from './imageRouter';
+import {router as bookingsRouter} from './bookingRouter';
+import {router as eventsRouter} from './eventRouter';
 
 export const router = express.Router();
 

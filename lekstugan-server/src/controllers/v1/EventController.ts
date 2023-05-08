@@ -1,8 +1,8 @@
-import { NextFunction, Request, Response } from 'express';
+import {NextFunction, Request, Response} from 'express';
 import Event from '../../models/mongo/Event';
-import { IEventData } from '../../models/types/IEventData';
-import { ITypedRequestBody } from '../../models/types/ITypedRequestBody';
-import { RequestError } from '../../models/errors/RequestError';
+import {IEventData} from '../../models/types/IEventData';
+import {ITypedRequestBody} from '../../models/types/ITypedRequestBody';
+import {RequestError} from '../../models/errors/RequestError';
 
 /**
  * EventController
@@ -16,9 +16,9 @@ export class EventController {
    * @param {NextFunction} _next - NextFunction
    */
   public async getAll(
-    _req: Request,
-    res: Response<IEventData[]>,
-    _next: NextFunction,
+      _req: Request,
+      res: Response<IEventData[]>,
+      _next: NextFunction,
   ): Promise<void> {
     const events = await Event.find({});
     res.json(events);
@@ -32,12 +32,12 @@ export class EventController {
    * @param {NextFunction} next
    */
   public async post(
-    req: ITypedRequestBody<IEventData>,
-    res: Response,
-    next: NextFunction,
+      req: ITypedRequestBody<IEventData>,
+      res: Response,
+      next: NextFunction,
   ): Promise<void> {
     try {
-      const { title, description, date, image, link } = req.body as IEventData;
+      const {title, description, date, image, link} = req.body as IEventData;
       const event = new Event<IEventData>({
         title,
         description,
@@ -60,14 +60,14 @@ export class EventController {
    * @param {NextFunction} next - NextFunction
    */
   public async delete(
-    req: Request,
-    res: Response,
-    next: NextFunction,
+      req: Request,
+      res: Response,
+      next: NextFunction,
   ): Promise<void> {
     try {
-      const { id } = req.params;
+      const {id} = req.params;
       await Event.findByIdAndDelete(id);
-      res.json({ message: 'Event deleted' });
+      res.json({message: 'Event deleted'});
     } catch (error) {
       next(new RequestError('Could not delete event', 400));
     }

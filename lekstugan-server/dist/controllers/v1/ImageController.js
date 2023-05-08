@@ -20,12 +20,16 @@ class ImageController {
     async getAll(req, res, _next) {
         const limit = parseInt(req.query.limit) || undefined;
         const offset = parseInt(req.query.offset) || undefined;
-        const query = Image_1.default.find({});
+        // const query = Image.find({});
+        const pending = req.query.pending === 'true';
+        const query = Image_1.default.find({ pending: pending });
         if (limit !== undefined) {
             query.limit(limit);
+            console.log(limit);
         }
         if (offset !== undefined) {
             query.skip(offset);
+            console.log(offset);
         }
         const images = await query.exec();
         res.json(images);
