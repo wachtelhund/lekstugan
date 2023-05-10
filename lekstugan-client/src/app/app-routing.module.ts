@@ -11,6 +11,8 @@ import {
   BookingFormComponent,
 } from './components/booking-form/booking-form.component';
 import {AdminComponent} from './pages/admin/admin.component';
+import {LoginComponent} from './components/login/login.component';
+import {AuthGuard} from './services/auth.guard';
 
 const routes: Routes = [
   {
@@ -28,6 +30,11 @@ const routes: Routes = [
   {
     path: 'admin',
     component: AdminComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
   },
 ];
 

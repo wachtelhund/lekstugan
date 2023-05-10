@@ -11,7 +11,7 @@
       {{eventData.description}}
     </p>
     <a target="_blank" href={{eventData.link}}><mat-icon>link</mat-icon>{{eventData.link}}</a>
-    <button id="delete-btn" (click)="onDelete(eventData)" mat-fab color="warn">
+    <button *ngIf="isAdmin" id="delete-btn" (click)="onDelete(eventData)" mat-fab color="warn">
       <mat-icon>delete</mat-icon>
     </button>
   </mat-card-content>

@@ -1,0 +1,21 @@
+<div class="container">
+<mat-card>
+
+  <h1>Sign in</h1>
+  <form [formGroup]="loginForm" (submit)="onSubmit()" action="#">
+    <mat-form-field id="email">
+      <mat-label>Email</mat-label>
+      <input [height]="2" formControlName="email" matInput>
+    </mat-form-field>
+    <mat-form-field id="password">
+      <mat-label>Password</mat-label>
+      <input [height]="2" formControlName="password" matInput type="password">
+    </mat-form-field>
+  <button mat-raised-button>Submit</button>
+  <span id="confirm-invalid" *ngIf="invalid">
+    <mat-icon>priority_high</mat-icon>
+    Wrong email or password.
+  </span>
+  </form>
+</mat-card>
+</div>
