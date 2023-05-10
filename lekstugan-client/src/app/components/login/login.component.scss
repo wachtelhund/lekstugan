@@ -1,0 +1,24 @@
+.container {
+  margin-top: 150px;
+  display: flex;
+  justify-content: center;
+}
+
+mat-card {
+  width: 500px;
+  padding: 20px;
+
+  & > form {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+#confirm-invalid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: red;
+  font-size: 1.2rem;
+  margin-top: 20px;
+}

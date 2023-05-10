@@ -1,5 +1,7 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {DeviceDetectorService} from 'ngx-device-detector';
+import {AuthService} from './services/auth.service';
+import {IUserPayload} from './types/IUserPayload';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +13,7 @@ import {DeviceDetectorService} from 'ngx-device-detector';
  */
 export class AppComponent implements OnInit {
   isSticky = false;
-  title = 'lekstugan-client';
+  title = 'Lekstugan';
   isMobile = false;
   linksActive = false;
   isActive = false;
@@ -22,7 +24,8 @@ export class AppComponent implements OnInit {
    *
    * @param {DeviceDetectorService} deviceService The device service.
    */
-  constructor(private deviceService: DeviceDetectorService) {}
+  constructor(private deviceService: DeviceDetectorService,
+    private auth: AuthService) {}
 
   /**
    * On init.
@@ -30,6 +33,16 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     if (this.deviceService.isMobile() || this.deviceService.isTablet()) {
       this.isMobile = true;
+    }
+    const token = localStorage.getItem('token');
+    if (token) {
+      const userToken = JSON.parse(token) as IUserPayload;
+      if (userToken.exp * 1000 < Date.now()) {
+        localStorage.removeItem('token');
+        this.auth.currentUser.next(null);
+      } else {
+        this.auth.currentUser.next(userToken);
+      }
     }
   }
 
