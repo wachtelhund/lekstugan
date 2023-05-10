@@ -8,6 +8,7 @@ import {
 import {IBase64Image} from '../../../types/IBase64Image';
 import {ImageService} from '../../../services/image.service';
 import {DeviceDetectorService} from 'ngx-device-detector';
+import {AuthService} from 'src/app/services/auth.service';
 
 @Component({
   selector: 'image-modal',
@@ -17,14 +18,25 @@ import {DeviceDetectorService} from 'ngx-device-detector';
  * The image modal.
  */
 export class ImageModal {
+  isAdmin = false;
   /**
    * Constructor.
    */
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     private imageService: ImageService,
-    private dialogRef: MatDialogRef<ImageModal>
+    private dialogRef: MatDialogRef<ImageModal>,
+    private auth: AuthService,
   ) {}
+
+  /**
+   * On init.
+   */
+  ngOnInit() {
+    if (this.auth.currentUser.value?.x_permission_level === 8) {
+      this.isAdmin = true;
+    }
+  }
 
   /**
    * Deletes the image.
@@ -55,6 +67,7 @@ export class ImageComponent {
   imageUrl = '';
   isLoading = false;
   isMobile = false;
+  isAdmin = false;
   @Input() imageData!: IBase64Image;
 
   /**
@@ -62,14 +75,23 @@ export class ImageComponent {
    */
   constructor(private http: HttpClient, public modal: MatDialog,
     private imageService: ImageService,
-    private deviceService: DeviceDetectorService) {}
+    private deviceService: DeviceDetectorService,
+    private auth: AuthService) {}
+
+  /**
+   * On init.
+   */
+  ngOnInit() {
+    if (this.auth.currentUser.value?.x_permission_level === 8) {
+      this.isAdmin = true;
+    }
+  }
 
   /**
    * Opens the modal.
    */
   onOpenModal() {
-    console.log(this.deviceService.isMobile());
-    if (!this.deviceService.isMobile()) {
+    if (this.isAdmin || !this.deviceService.isMobile()) {
       this.modal.open(ImageModal, {
         data: {
           base64: this.imageData.base64,
@@ -88,7 +110,6 @@ export class ImageComponent {
     if (this.imageData.id === undefined) {
       throw new Error('Image id is undefined');
     }
-    console.log('ON ACCEPT IMAGE COMPONENT');
     this.imageService.acceptImage(this.imageData as IBase64Image);
     this.imageData.pending = false;
   }

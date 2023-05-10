@@ -59,14 +59,12 @@ export class ImageGalleryComponent {
    * Loads the images.
    */
   loadImages() {
-    console.log('loadimages()');
     if (this.allImagesLoaded) {
       return;
     }
 
     this.loading = true;
     this.imageService.getImages(this.limit, this.offset).subscribe((images) => {
-      console.log('images: ', images);
       if (images.length < this.limit) {
         this.allImagesLoaded = true;
         this.intersectionObserver.disconnect();
@@ -100,7 +98,6 @@ export class ImageGalleryComponent {
    * On scroll. Loads more images.
    */
   onScroll(): void {
-    console.log('scroll');
     if (!this.loading) {
       this.loadImages();
     }

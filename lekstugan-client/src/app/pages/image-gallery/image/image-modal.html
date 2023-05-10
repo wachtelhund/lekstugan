@@ -1,5 +1,5 @@
 <img class="modal-image" data-id={{data.id}} [src]="data.base64" alt="">
-<div mat-dialog-actions>
+<div *ngIf="isAdmin" mat-dialog-actions>
   <button (click)="onDelete()" mat-fab color="warn">
     <mat-icon>delete</mat-icon>
   </button>
