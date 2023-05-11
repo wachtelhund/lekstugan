@@ -38,6 +38,8 @@ const authorizeAdmin = (req, res, next) => {
   }
 }
 
-router.get('/', (req, res, next) => res.json({ message: 'Welcome to the authentication service!' }))
+router.get('/users', authorizeAdmin, (req, res, next) => controller.getAllUsers(req, res, next))
+router.post('/add', authorizeAdmin, (req, res, next) => controller.addUser(req, res, next))
 router.post('/register', authorizeAdmin, (req, res, next) => controller.register(req, res, next))
 router.post('/login', (req, res, next) => controller.login(req, res, next))
+router.delete('/:email', authorizeAdmin, (req, res, next) => controller.deleteUser(req, res, next))
