@@ -2,9 +2,9 @@ import {EventEmitter, Injectable} from '@angular/core';
 import {IBase64Image} from '../types/IBase64Image';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
 import {environment} from '../../environments/environment';
 import {BehaviorSubject} from 'rxjs';
+import {AuthService} from './auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +23,7 @@ export class ImageService {
   /**
    * Constructor.
    */
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private auth: AuthService) {}
 
   /**
    * Fetches the images.
@@ -47,7 +47,9 @@ export class ImageService {
       const separator = url.includes('?') ? '&' : '?';
       url += `${separator}pending=${pending}`;
     }
-    return this.http.get<IBase64Image[]>(url);
+    return this.http.get<IBase64Image[]>(url,
+        // eslint-disable-next-line
+        {headers: {'Authorization': 'Bearer ' + this.auth.token.value}});
   }
 
 
@@ -77,33 +79,17 @@ export class ImageService {
   }
 
   /**
-   * Gets the pending images.
-   *
-   * @return {IBase64Image[]} The pending images.
-   */
-  getPendingImages(): Observable<IBase64Image[]> {
-    return this.imagesSubject.asObservable().pipe(
-        map((images) => {
-          const pendingImages: IBase64Image[] = [];
-          images.forEach((image) => {
-            if (image.pending) {
-              pendingImages.push(image);
-            }
-          });
-          return pendingImages;
-        })
-    );
-  }
-
-  /**
    * Deletes an image.
    *
    * @param {IBase64Image} image Id of the image to delete.
    */
   deleteImage(image: IBase64Image): void {
-    this.http.delete(this.serverUrl + '/images/' + image.id).subscribe(() => {
-      this.imageDeleted.emit(image);
-    });
+    this.http.delete(this.serverUrl + '/images/' + image.id,
+        // eslint-disable-next-line
+        {headers: {'Authorization': 'Bearer ' + this.auth.token.value}})
+        .subscribe(() => {
+          this.imageDeleted.emit(image);
+        });
   }
 
   /**
@@ -135,7 +121,10 @@ export class ImageService {
    */
   acceptImage(image: IBase64Image): void {
     this.http
-        .post(this.serverUrl + '/images/' + image.id + '/accept', {image})
+        .post(this.serverUrl + '/images/' + image.id + '/accept',
+            {image},
+            // eslint-disable-next-line
+            {headers: {'Authorization': 'Bearer ' + this.auth.token.value}})
         .subscribe((data) => {
           this.imageAccepted.emit(data as IBase64Image);
         });

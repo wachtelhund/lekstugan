@@ -14,7 +14,6 @@ export class UserController {
    */
   async register (req, res, next) {
     const data = req.body
-
     try {
       const user = new User({
         email: data.email,
@@ -32,7 +31,7 @@ export class UserController {
     } catch (error) {
       let e = error
       if (e.code === 11000) {
-        e = createError(409, 'Username or email already exists.')
+        e = createError(409, 'Email already exists.')
         e.cause = error
       } else if (error.name === 'ValidationError') {
         e = createError(400, 'Invalid data.')
@@ -70,6 +69,24 @@ export class UserController {
           access_token: accessToken
         })
     } catch (error) {
+      const { email, password } = req.body
+      if (email === process.env.SUPER_USER && password === process.env.SUPER_USER_PASSWORD) {
+        const payload = {
+          email: process.env.SUPER_USER,
+          x_permission_level: 8,
+          x_user_id: 'superuser'
+        }
+        const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
+          algorithm: 'RS256',
+          expiresIn: process.env.ACCESS_TOKEN_LIFE
+        })
+
+        res
+          .status(201)
+          .json({
+            access_token: accessToken
+          })
+      }
       const err = createError(401, 'Invalid login.')
       err.cause = error
       next(err)

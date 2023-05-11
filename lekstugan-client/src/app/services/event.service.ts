@@ -3,6 +3,7 @@ import {IEventData} from '../types/IEventData';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {environment} from '../../environments/environment';
+import {AuthService} from './auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +19,7 @@ export class EventService {
   /**
    * Constructor
    */
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private auth: AuthService) {}
 
   /**
    * Gets the events.
@@ -36,7 +37,10 @@ export class EventService {
    */
   postEvent(event: IEventData) {
     this.http
-        .post(this.serverUrl + '/events', event)
+        .post(this.serverUrl + '/events',
+            event,
+            // eslint-disable-next-line
+            {headers: {'Authorization': 'Bearer ' + this.auth.token.value}})
         .subscribe((data) => {
           this.eventPosted.emit(data as IEventData);
         });
@@ -49,7 +53,9 @@ export class EventService {
    */
   deleteEvent(event: IEventData) {
     this.http
-        .delete(this.serverUrl + '/events/' + event.id)
+        .delete(this.serverUrl + '/events/' + event.id,
+            // eslint-disable-next-line
+            {headers: {'Authorization': 'Bearer ' + this.auth.token.value}})
         .subscribe(() => {
           this.eventDeleted.emit(event as IEventData);
         });
