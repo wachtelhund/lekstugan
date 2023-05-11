@@ -20,6 +20,9 @@ class BookingController {
     async getAll(_req, res, _next) {
         try {
             const bookings = await Booking_1.default.find({});
+            bookings.sort((a, b) => {
+                return a.date.getTime() - b.date.getTime();
+            });
             res.json(bookings);
         }
         catch (error) {

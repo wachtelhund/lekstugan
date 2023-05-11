@@ -31,6 +31,7 @@ export class LoginComponent {
     if (this.loginForm.invalid) {
       throw new Error('Invalid form');
     }
+    this.loginForm.value.email = this.loginForm.value.email?.toLowerCase();
     this.auth.login(this.loginForm.value as IUser).subscribe((res) => {
       if (res === null) {
         this.invalid = true;

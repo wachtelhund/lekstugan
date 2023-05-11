@@ -20,7 +20,13 @@ class ImageController {
     async getAll(req, res, _next) {
         const limit = parseInt(req.query.limit) || undefined;
         const offset = parseInt(req.query.offset) || undefined;
-        const pending = req.query.pending === 'true';
+        let pending = false;
+        console.log(req.userPayload);
+        console.log(req.query);
+        if (req.userPayload && req.userPayload.x_permission_level >= 8) {
+            pending = req.query.pending === 'true';
+        }
+        console.log(pending);
         const query = Image_1.default.find({ pending: pending });
         query.sort({ createdAt: -1 });
         if (limit !== undefined) {
@@ -84,7 +90,6 @@ class ImageController {
     async accept(req, res, next) {
         try {
             const { id } = req.params;
-            console.log(id);
             const image = await Image_1.default.findById(id);
             if (image) {
                 image.pending = false;
