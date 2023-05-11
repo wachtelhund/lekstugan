@@ -22,6 +22,9 @@ export class BookingController {
   ): Promise<void> {
     try {
       const bookings = await Booking.find({});
+      bookings.sort((a, b) => {
+        return a.date.getTime() - b.date.getTime();
+      });
       res.json(bookings);
     } catch (error) {
       throw new RequestError('Could not get bookings', 400);

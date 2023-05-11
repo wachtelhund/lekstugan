@@ -3,6 +3,7 @@ import Image from '../../models/mongo/Image';
 import {IBase64Image} from '../../models/types/IBase64Image';
 import {RequestError} from '../../models/errors/RequestError';
 import {ITypedRequestBody} from '../../models/types/ITypedRequestBody';
+import {AuthenticatedRequest} from '../../helpers/Authentication';
 /**
  * ImageController
  */
@@ -15,15 +16,19 @@ export class ImageController {
    * @param {NextFunction} _next - NextFunction
    */
   public async getAll(
-      req: Request,
+      req: AuthenticatedRequest,
       res: Response<IBase64Image[]>,
       _next: NextFunction,
   ): Promise<void> {
     const limit = parseInt(req.query.limit as string) || undefined;
     const offset = parseInt(req.query.offset as string) || undefined;
-
-    const pending = req.query.pending === 'true';
-
+    let pending = false;
+    console.log(req.userPayload);
+    console.log(req.query);
+    if (req.userPayload && req.userPayload.x_permission_level >= 8) {
+      pending = req.query.pending === 'true';
+    }
+    console.log(pending);
     const query = Image.find({pending: pending});
 
     query.sort({createdAt: -1});
@@ -105,7 +110,6 @@ export class ImageController {
   ): Promise<void> {
     try {
       const {id} = req.params;
-      console.log(id);
       const image = await Image.findById(id);
       if (image) {
         image.pending = false;
