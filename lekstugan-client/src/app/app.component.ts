@@ -18,6 +18,7 @@ export class AppComponent implements OnInit {
   isMobile = false;
   linksActive = false;
   isActive = false;
+  isAdmin = false;
   @ViewChild('links') links!: ElementRef;
 
   /**
@@ -47,6 +48,11 @@ export class AppComponent implements OnInit {
             .next(user);
       }
     }
+    this.auth.currentUser.subscribe((user) => {
+      if (user && user?.x_permission_level >= 8) {
+        this.isAdmin = true;
+      }
+    });
   }
 
   /**

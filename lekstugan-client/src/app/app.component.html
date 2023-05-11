@@ -7,9 +7,10 @@
         <button (click)="linksActive = false" class="headerLink" color="primary" routerLink="/" mat-flat-button><mat-icon>home</mat-icon>Hem</button>
         <button (click)="linksActive = false" class="headerLink" color="primary" routerLink="/gallery" mat-flat-button><mat-icon>photo_library</mat-icon>Fotogalleri</button>
         <button (click)="linksActive = false" class="headerLink" color="primary" routerLink="/events" mat-flat-button><mat-icon>event</mat-icon>Events</button>
-        <button (click)="linksActive = false" class="headerLink" color="primary" routerLink="/contact" mat-flat-button><mat-icon>mail</mat-icon>Kontakt</button>
+        <button (click)="linksActive = false" class="headerLink" color="primary" routerLink="/contact" mat-flat-button><mat-icon>mail</mat-icon>Contact</button>
         <button (click)="linksActive = false" class="headerLink" color="primary" routerLink="/admin" mat-flat-button><mat-icon>admin_panel_settings</mat-icon>Admin</button>
-        <button  [ngStyle]="linksActive ? {'transform': 'rotateX(180deg)'} : {'transform': 'rotateX(0deg)'}" (click)="toggleLinks()" class="toggler"><mat-icon>expand_more</mat-icon></button>
+        <button *ngIf="isAdmin" (click)="linksActive = false" class="headerLink" color="primary" routerLink="/auth" mat-flat-button><mat-icon>group_add</mat-icon>Authenticate</button>
+        <button [ngStyle]="linksActive ? {'transform': 'rotateX(180deg)'} : {'transform': 'rotateX(0deg)'}" (click)="toggleLinks()" class="toggler"><mat-icon>expand_more</mat-icon></button>
     </div>
   </div>
   <header *ngIf="!isMobile" id="desktop-header">
@@ -20,8 +21,9 @@
       <button class="navLink-desktop" color="primary" routerLink="/"><mat-icon>home</mat-icon>Hem</button>
       <button class="navLink-desktop" color="primary" routerLink="/gallery"><mat-icon>photo_library</mat-icon>Fotogalleri</button>
       <button class="navLink-desktop" color="primary" routerLink="/events"><mat-icon>event</mat-icon>Events</button>
-      <button class="navLink-desktop" color="primary" routerLink="/contact"><mat-icon>mail</mat-icon>Kontakt</button>
+      <button class="navLink-desktop" color="primary" routerLink="/contact"><mat-icon>mail</mat-icon>Contact</button>
       <button class="navLink-desktop" color="primary" routerLink="/admin"><mat-icon>admin_panel_settings</mat-icon>Admin</button>
+      <button *ngIf="isAdmin" class="navLink-desktop" color="primary" routerLink="/auth"><mat-icon>group_add</mat-icon>Authenticate</button>
     </div>
   </header>
     <div class="sidenav-content">
