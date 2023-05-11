@@ -17,7 +17,7 @@ export class ImageGalleryComponent {
   imageSizes: string[] = [];
   amount = 2;
   images: IBase64Image[] = [];
-  limit = 10;
+  limit = 15;
   offset = 0;
   loading = false;
   @ViewChild('scrollTarget', {static: true}) scrollTarget!: ElementRef;

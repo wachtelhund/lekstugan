@@ -2,6 +2,7 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {DeviceDetectorService} from 'ngx-device-detector';
 import {AuthService} from './services/auth.service';
 import {IUserPayload} from './types/IUserPayload';
+import jwtDecode, {JwtPayload} from 'jwt-decode';
 
 @Component({
   selector: 'app-root',
@@ -36,12 +37,14 @@ export class AppComponent implements OnInit {
     }
     const token = localStorage.getItem('token');
     if (token) {
-      const userToken = JSON.parse(token) as IUserPayload;
-      if (userToken.exp * 1000 < Date.now()) {
+      const user = jwtDecode<JwtPayload>(token) as IUserPayload;
+      if (user.exp * 1000 < Date.now()) {
         localStorage.removeItem('token');
         this.auth.currentUser.next(null);
       } else {
-        this.auth.currentUser.next(userToken);
+        this.auth.token.next(token);
+        this.auth.currentUser
+            .next(user);
       }
     }
   }
