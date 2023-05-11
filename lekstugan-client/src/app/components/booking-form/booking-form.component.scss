@@ -41,6 +41,11 @@ form {
 mat-card {
   padding: 20px;
   width: max-content;
+  transition: 500ms all;
+}
+
+.roll {
+  transform: rotate(360deg);
 }
 
 #confirm-valid {
