@@ -36,7 +36,17 @@ export class BookingFormComponent {
     }
     const currentDate = new Date();
     currentDate.setHours(0, 0, 0, 0);
-    return date >= currentDate;
+    if (date < currentDate) {
+      return false;
+    }
+
+    const dateString = date.toISOString().split('T')[0];
+    const isBooked = this.bookings.some((booking) => {
+      const bookedDate = new Date(booking.date).toISOString().split('T')[0];
+      return bookedDate === dateString;
+    });
+
+    return !isBooked;
   };
 
   /**
