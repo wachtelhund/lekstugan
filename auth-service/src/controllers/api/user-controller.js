@@ -92,4 +92,56 @@ export class UserController {
       next(err)
     }
   }
+
+  /**
+   * Gets all the users.
+   *
+   * @param {Request} req - The request object.
+   * @param {Response} res - The response object.
+   * @param {Function} next - The next middleware function.
+   */
+  async getAllUsers (req, res, next) {
+    try {
+      const users = await User.find({})
+      const emails = users.map(user => user.email)
+      res.json(emails)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  /**
+   * Deletes a user based on the email.
+   *
+   * @param {Request} req - The request object.
+   * @param {Response} res - The response object.
+   * @param {Function} next - The next middleware function.
+   */
+  async deleteUser (req, res, next) {
+    try {
+      await User.deleteOne({ email: req.params.email })
+      res.json({ message: 'User deleted.' })
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  /**
+   * Adds a new user.
+   *
+   * @param {Request} req - The request object.
+   * @param {Response} res - The response object.
+   * @param {Function} next - The next middleware function.
+   */
+  async addUser (req, res, next) {
+    try {
+      // console.log(req.body);
+      const user = new User({ ...req.body.user, permissionLevel: 8 })
+      // console.log(user);
+      await user.save()
+      res.json({ message: 'User added.' })
+    } catch (error) {
+      next(error)
+    }
+  }
 }

@@ -46,6 +46,7 @@ import {
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {LoginComponent} from './components/login/login.component';
+import { AdminAuthenticatorComponent } from './components/admin-authenticator/admin-authenticator.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -60,6 +61,7 @@ import {LoginComponent} from './components/login/login.component';
     AdminComponent,
     BookingRequestComponent,
     LoginComponent,
+    AdminAuthenticatorComponent,
   ],
   imports: [
     BrowserModule,
