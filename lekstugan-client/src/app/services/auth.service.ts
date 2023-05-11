@@ -20,6 +20,9 @@ export class AuthService {
   apiURL = environment.authApiURL;
   currentUser: BehaviorSubject<IUserPayload | null> =
     new BehaviorSubject<IUserPayload | null>(null);
+  token: BehaviorSubject<string | null> =
+    new BehaviorSubject<string | null>(null);
+
 
   /**
    * Login a user.
@@ -31,9 +34,10 @@ export class AuthService {
     return this.http
         .post<ILoginResponse>(`${this.apiURL}/login`, user).pipe(
             map((res) => {
+              this.token.next(res.access_token as string);
               const decodedToken = jwtDecode<JwtPayload>(res.access_token);
               const payLoad = decodedToken as IUserPayload;
-              localStorage.setItem('token', JSON.stringify(payLoad));
+              localStorage.setItem('token', this.token.value || '');
               this.currentUser.next(payLoad);
               return payLoad;
             }),

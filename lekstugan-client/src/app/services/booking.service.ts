@@ -3,6 +3,7 @@ import {IBooking} from '../types/IBooking';
 import {HttpClient} from '@angular/common/http';
 import {Observable, map} from 'rxjs';
 import {environment} from '../../environments/environment';
+import {AuthService} from './auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +19,7 @@ export class BookingService {
   /**
    * Constructor.
    */
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private auth: AuthService) {}
 
   /**
    * Get bookings.
@@ -26,7 +27,9 @@ export class BookingService {
    * @return {IBooking[]} - The bookings.
    */
   getBookings(): Observable<IBooking[]> {
-    return this.http.get<IBooking[]>(this.serverUrl + '/bookings');
+    return this.http.get<IBooking[]>(this.serverUrl + '/bookings',
+        // eslint-disable-next-line
+        {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}});
   }
 
   /**
@@ -79,7 +82,10 @@ export class BookingService {
     this.http.post(this.serverUrl +
       '/bookings/' +
       booking.id +
-      '/accept', {booking})
+      '/accept',
+    {booking},
+    // eslint-disable-next-line
+    {headers: {'Authorization': 'Bearer ' + this.auth.token.value}})
         .subscribe((data) => {
           this.bookingAccepted.emit(data as IBooking);
         });
@@ -91,7 +97,9 @@ export class BookingService {
    * @param {IBooking} booking - The booking to delete.
    */
   deleteBooking(booking: IBooking): void {
-    this.http.delete(this.serverUrl + '/bookings/' + booking.id)
+    this.http.delete(this.serverUrl + '/bookings/' + booking.id,
+        // eslint-disable-next-line
+        {headers: {'Authorization': 'Bearer ' + this.auth.token.value}})
         .subscribe(() => {
           this.bookingDeleted.emit(booking);
         });
