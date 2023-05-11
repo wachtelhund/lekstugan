@@ -44,6 +44,7 @@ export class BookingFormComponent {
    */
   constructor(private bookingService: BookingService,
     private snackBar: MatSnackBar) {}
+  roll = false;
 
   /**
    * On init.
@@ -65,7 +66,9 @@ export class BookingFormComponent {
       if (!date) {
         throw new Error('Invalid date');
       }
-
+      if (comment?.trim().toLowerCase().replaceAll(' ', '') === 'barrelroll') {
+        this.roll = true;
+      }
       this.bookingService.postBooking({
         date: new Date(date),
         email,

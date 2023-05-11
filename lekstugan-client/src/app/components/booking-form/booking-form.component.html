@@ -1,6 +1,5 @@
 <div class="container">
-<mat-card>
-
+<mat-card [ngClass]="{'roll': roll}">
   <h1>Booking</h1>
   <form [formGroup]="bookingForm" (submit)="onSubmitBooking()" action="#">
     <mat-form-field id="date" appearance="fill">
