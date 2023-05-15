@@ -55,6 +55,7 @@ export class BookingService {
    * Post booking.
    *
    * @param {IBooking} booking - The booking to post.
+   * @param {string} key - The key to post with.
    */
   postBooking(booking: IBooking): void {
     this.http
@@ -69,8 +70,12 @@ export class BookingService {
    *
    * @return {Date[]} - The unavailable dates.
    */
-  getUnavailableDates(): Date[] {
-    return this.bookings.map((booking) => booking.date);
+  getUnavailableDates(): Observable<Date[]> {
+    return this.http.get<string[]>(this.serverUrl +
+      '/bookings/bookeddates').pipe(
+        map((dateStrings) => dateStrings
+            .map((dateString) => new Date(dateString)))
+    );
   }
 
   /**

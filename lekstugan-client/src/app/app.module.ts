@@ -46,7 +46,17 @@ import {
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {LoginComponent} from './components/login/login.component';
-import { AdminAuthenticatorComponent } from './components/admin-authenticator/admin-authenticator.component';
+import {
+  AdminAuthenticatorComponent,
+} from './components/admin-authenticator/admin-authenticator.component';
+import {KeygenComponent} from './components/keygen/keygen.component';
+import {MatSelectModule} from '@angular/material/select';
+import {
+  AssociationAuthComponent,
+} from './components/association-auth/association-auth.component';
+import {
+  AuthenticationComponent,
+} from './pages/authentication/authentication.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -62,6 +72,9 @@ import { AdminAuthenticatorComponent } from './components/admin-authenticator/ad
     BookingRequestComponent,
     LoginComponent,
     AdminAuthenticatorComponent,
+    KeygenComponent,
+    AssociationAuthComponent,
+    AuthenticationComponent,
   ],
   imports: [
     BrowserModule,
@@ -86,6 +99,7 @@ import { AdminAuthenticatorComponent } from './components/admin-authenticator/ad
     ReactiveFormsModule,
     MatCheckboxModule,
     MatSnackBarModule,
+    MatSelectModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

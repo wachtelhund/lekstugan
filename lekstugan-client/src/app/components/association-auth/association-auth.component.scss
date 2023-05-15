@@ -1,0 +1,24 @@
+mat-card {
+  padding: 20px;
+  max-width: 500px;
+}
+form {
+  margin-bottom: 20px;
+}
+.association {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin: 10px;
+}
+
+@media screen and (max-width: 600px) {
+  mat-card {
+    max-width: unset;
+  }
+
+  form > *{
+    width: 100%;
+  }
+}
