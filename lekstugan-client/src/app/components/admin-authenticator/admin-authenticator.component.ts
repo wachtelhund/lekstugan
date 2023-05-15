@@ -39,7 +39,6 @@ export class AdminAuthenticatorComponent {
    * @param {string} adminMail The event.
    */
   onDelete(adminMail: string) {
-    console.log(adminMail);
     this.auth.deleteAdmin(adminMail).subscribe(() => {
       this.admins = this.admins.filter((admin) => admin !== adminMail);
     });
@@ -53,7 +52,6 @@ export class AdminAuthenticatorComponent {
       throw new Error('Invalid form');
     }
     this.auth.addAdmin(this.addAdminForm.value as IUser).subscribe((res) => {
-      console.log(res);
       this.admins.push((this.addAdminForm.value as IUser).email);
     });
   }

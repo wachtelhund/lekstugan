@@ -10,7 +10,7 @@
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
     <mat-form-field id="email">
-      <mat-label>Email</mat-label>
+      <mat-label>Contact Email</mat-label>
       <input [height]="2" formControlName="email" matInput>
     </mat-form-field>
   <mat-form-field appearance="fill" id="comment">
@@ -20,6 +20,14 @@
             #autosize="cdkTextareaAutosize"
             cdkAutosizeMinRows="1"
             cdkAutosizeMaxRows="5"></textarea>
+  </mat-form-field>
+  <mat-form-field id="name">
+    <mat-label>Association name</mat-label>
+    <input [height]="2" formControlName="name" matInput>
+  </mat-form-field>
+  <mat-form-field id="key">
+    <mat-label>Key</mat-label>
+    <input [height]="2" formControlName="key" matInput>
   </mat-form-field>
   <button mat-raised-button>Request booking</button>
   <span id="confirm-valid" *ngIf="booked">

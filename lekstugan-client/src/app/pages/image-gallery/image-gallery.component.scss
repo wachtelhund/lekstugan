@@ -1,8 +1,6 @@
 .container {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  // grid-template-rows: min-content;
-  gap: 1rem;
 }
 app-image {
   max-height: 600px;

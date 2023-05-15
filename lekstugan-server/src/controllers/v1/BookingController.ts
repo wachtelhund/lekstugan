@@ -3,6 +3,7 @@ import {IBooking} from '../../models/types/IBooking';
 import {ITypedRequestBody} from '../../models/types/ITypedRequestBody';
 import {RequestError} from '../../models/errors/RequestError';
 import Booking from '../../models/mongo/Booking';
+import {Association} from '../../models/mongo/Association';
 
 /**
  * BookingController
@@ -21,7 +22,7 @@ export class BookingController {
       _next: NextFunction,
   ): Promise<void> {
     try {
-      const bookings = await Booking.find({});
+      const bookings = await Booking.find({}).populate('association');
       bookings.sort((a, b) => {
         return a.date.getTime() - b.date.getTime();
       });
@@ -44,15 +45,21 @@ export class BookingController {
       next: NextFunction,
   ): Promise<void> {
     try {
-      const booking = new Booking<IBooking>({
-        date: req.body.date,
-        email: req.body.email,
-        comment: req.body.comment,
-        association: req.body.association,
-        pending: true,
-      });
-      await booking.save();
-      res.json(booking.id);
+      const association =
+        await Association.findOne({name: req.body.association.name});
+      if (!association) {
+        next(new RequestError('Could not find association', 404));
+      } else {
+        const booking = new Booking<IBooking>({
+          date: req.body.date,
+          email: req.body.email,
+          comment: req.body.comment,
+          association: association.id,
+          pending: true,
+        });
+        await booking.save();
+        res.json(booking.id);
+      }
     } catch (error) {
       next(new RequestError('Could not post booking', 400));
     }
@@ -68,7 +75,6 @@ export class BookingController {
   async delete(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const {id} = req.params;
-      console.log(id);
       await Booking.findByIdAndDelete(id);
       res.json({message: 'Booking deleted'});
     } catch (error) {
@@ -98,6 +104,29 @@ export class BookingController {
       }
     } catch (error) {
       next(new RequestError('Booking not found', 404));
+    }
+  }
+
+  /**
+   * Get all booked dates. PUBLIC.
+   *
+   * @param {Request} _req - Request
+   * @param {Response} res - Response
+   * @param {NextFunction} next - NextFunction
+   */
+  public async getBookedDates(
+      _req: Request,
+      res: Response,
+      next: NextFunction,
+  ): Promise<void> {
+    try {
+      const bookings = await Booking.find({pending: false});
+      const bookedDates = bookings.map((booking) => {
+        return booking.date;
+      });
+      res.json(bookedDates);
+    } catch (error) {
+      next(new RequestError('Could not get booked dates', 400));
     }
   }
 }
