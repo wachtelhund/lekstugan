@@ -1,8 +1,9 @@
 <mat-card>
   <mat-card-header>
     <mat-card-title>{{booking.date | date}}</mat-card-title>
+    <mat-card-subtitle>{{booking.association?.name}}</mat-card-subtitle>
     <mat-card-subtitle>{{booking.email}}</mat-card-subtitle>
-    <mat-card-subtitle>{{booking.association}}</mat-card-subtitle>
+    <mat-card-subtitle>{{booking.association?.email}}</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
     <p>

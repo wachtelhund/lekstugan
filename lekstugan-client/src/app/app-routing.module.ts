@@ -14,8 +14,8 @@ import {AdminComponent} from './pages/admin/admin.component';
 import {LoginComponent} from './components/login/login.component';
 import {AuthGuard} from './services/auth.guard';
 import {
-  AdminAuthenticatorComponent,
-} from './components/admin-authenticator/admin-authenticator.component';
+  AuthenticationComponent,
+} from './pages/authentication/authentication.component';
 
 const routes: Routes = [
   {
@@ -41,7 +41,7 @@ const routes: Routes = [
   },
   {
     path: 'auth',
-    component: AdminAuthenticatorComponent,
+    component: AuthenticationComponent,
     canActivate: [AuthGuard],
   },
 ];

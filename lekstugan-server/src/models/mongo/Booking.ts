@@ -17,7 +17,8 @@ const schema = new mongoose.Schema<IBooking>(
         maxlength: 100,
       },
       association: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Association',
         required: true,
       },
       pending: {

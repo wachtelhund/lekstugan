@@ -4,6 +4,7 @@ import {BookingService} from '../../services/booking.service';
 import {IBooking} from '../../types/IBooking';
 import {firstValueFrom} from 'rxjs';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {IAssociation} from 'src/app/types/IAssociation';
 
 @Component({
   selector: 'app-booking-form',
@@ -16,12 +17,15 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 export class BookingFormComponent {
   booked = false;
   invalid = false;
-  bookings: IBooking[] = [];
+  // bookings: IBooking[] = [];
+  bookings: Date[] = [];
   bookedDate = new Date();
   bookingForm = new FormGroup({
     date: new FormControl('', Validators.required),
-    email: new FormControl('', Validators.required),
+    email: new FormControl('', Validators.email),
     comment: new FormControl(''),
+    name: new FormControl('', Validators.required),
+    key: new FormControl('', Validators.required),
   });
 
   /**
@@ -42,8 +46,7 @@ export class BookingFormComponent {
 
     const dateString = date.toISOString().split('T')[0];
     const isBooked = this.bookings.some((booking) => {
-      const bookedDate = new Date(booking.date).toISOString().split('T')[0];
-      return bookedDate === dateString;
+      return booking.toISOString().split('T')[0] === dateString;
     });
 
     return !isBooked;
@@ -60,7 +63,11 @@ export class BookingFormComponent {
    * On init.
    */
   async ngOnInit() {
-    this.bookings = await firstValueFrom(this.bookingService.getBookings());
+    this.bookingService.getUnavailableDates().subscribe((dates) => {
+      this.bookings = dates.map((date) => {
+        return date;
+      });
+    });
   }
 
   /**
@@ -71,7 +78,7 @@ export class BookingFormComponent {
       throw new Error('Invalid form');
     }
     try {
-      const {date, email, comment} = this.bookingForm.value;
+      const {date, email, comment, key, name} = this.bookingForm.value;
 
       if (!date) {
         throw new Error('Invalid date');
@@ -79,11 +86,19 @@ export class BookingFormComponent {
       if (comment?.trim().toLowerCase().replaceAll(' ', '') === 'barrelroll') {
         this.roll = true;
       }
+      if (!key) {
+        throw new Error('Invalid key');
+      }
+      const association = {
+        name: name?.trim().toLowerCase(),
+        email: email?.trim().toLowerCase(),
+        key: key.trim(),
+      } as IAssociation;
       this.bookingService.postBooking({
         date: new Date(date),
-        email,
+        email: email?.trim().toLowerCase(),
         comment,
-        association: 'spiik',
+        association,
       } as IBooking);
       this.snackBar.openFromComponent(BookingConfirmDialog, {
         duration: 10000,

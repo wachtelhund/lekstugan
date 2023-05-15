@@ -1,0 +1,35 @@
+<div class="container">
+  <mat-card>
+    <h1>Generate key</h1>
+    <mat-card-subtitle>This form is used to generate a private key
+      for the associations to use when signing their booking requests.
+      Once a new key has been generated, the old one will be invalid.
+      (Make sure the assocciation recieves the lastest key generated!)
+    </mat-card-subtitle>
+    <form (submit)="onGenerateKey()" [formGroup]="association">
+      <mat-form-field>
+        <mat-label>Association</mat-label>
+        <mat-select formControlName="name">
+          <mat-option *ngFor="let association of allAssociations" [value]="association.name">
+            {{association.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button type="submit" mat-flat-button>
+        Generate key
+        <mat-icon>key</mat-icon>
+      </button>
+    </form>
+    <span class="key" *ngIf="key.length > 0">
+      <div>
+        <mat-icon>key</mat-icon>
+        <p id="key">
+          {{key}}
+        </p>
+      </div>
+      <div>
+        Copy the key and send it to the association.
+      </div>
+    </span>
+  </mat-card>
+</div>
