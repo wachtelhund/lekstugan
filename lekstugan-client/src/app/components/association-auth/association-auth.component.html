@@ -1,0 +1,27 @@
+<div class="container">
+  <mat-card>
+    <h1>Register association</h1>
+    <form (submit)="onSubmit()" [formGroup]="associationForm">
+      <mat-form-field id="name">
+        <mat-label>Name</mat-label>
+        <input [height]="2" formControlName="name" matInput>
+      </mat-form-field>
+      <mat-form-field id="email">
+        <mat-label>Email</mat-label>
+        <input [height]="2" formControlName="email" matInput>
+      </mat-form-field>
+      <button mat-raised-button>Add association</button>
+    </form>
+    <div class="list">
+      <div *ngFor="let association of allAssociations">
+        <mat-divider></mat-divider>
+        <div class="association">
+          <span>
+            <span>{{association.name}}</span> - <span>{{association.email}}</span>
+          </span>
+          <button (click)="onDelete(association)" color="warn" mat-raised-button>Delete</button>
+        </div>
+      </div>
+    </div>
+  </mat-card>
+</div>
