@@ -39,11 +39,13 @@ class BookingController {
      */
     async post(req, res, next) {
         try {
+            console.log(req.body);
             const association = await Association_1.Association.findOne({ name: req.body.association.name });
             if (!association) {
                 next(new RequestError_1.RequestError('Could not find association', 404));
             }
             else {
+                console.log('FOUND', association);
                 const booking = new Booking_1.default({
                     date: req.body.date,
                     email: req.body.email,
@@ -56,6 +58,7 @@ class BookingController {
             }
         }
         catch (error) {
+            console.log(error);
             next(new RequestError_1.RequestError('Could not post booking', 400));
         }
     }
@@ -106,7 +109,7 @@ class BookingController {
      */
     async getBookedDates(_req, res, next) {
         try {
-            const bookings = await Booking_1.default.find({ pending: false });
+            const bookings = await Booking_1.default.find({});
             const bookedDates = bookings.map((booking) => {
                 return booking.date;
             });

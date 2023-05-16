@@ -12,7 +12,6 @@ const schema = new mongoose_1.default.Schema({
     },
     email: {
         type: String,
-        required: true,
     },
     comment: {
         type: String,
