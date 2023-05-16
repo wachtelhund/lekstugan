@@ -11,11 +11,11 @@
     </mat-form-field>
     <mat-form-field id="email">
       <mat-label>Contact Email</mat-label>
-      <input [height]="2" formControlName="email" matInput>
+      <input [value]="emailLabel" [height]="2" formControlName="email" matInput>
     </mat-form-field>
   <mat-form-field appearance="fill" id="comment">
   <mat-label>Comment</mat-label>
-  <textarea maxlength="120" formControlName="comment" matInput
+  <textarea maxlength="100" formControlName="comment" matInput
             cdkTextareaAutosize
             #autosize="cdkTextareaAutosize"
             cdkAutosizeMinRows="1"

@@ -60,9 +60,10 @@ event-form {
   // overflow-y: auto;
 
   & > * {
-    width: 100%;
+    width: 95%;
     height: 255px;
     margin: 10px;
+    word-wrap: break-word;
   }
 }
 
@@ -137,6 +138,7 @@ event-form {
 
     & > * {
       width: fit-content;
+      max-width: 200px;
       height: 100%;
       margin: 10px;
     }

@@ -27,6 +27,7 @@ export class BookingFormComponent {
     name: new FormControl('', Validators.required),
     key: new FormControl('', Validators.required),
   });
+  emailLabel = 'Email';
 
   /**
    * Date filter.
@@ -71,6 +72,14 @@ export class BookingFormComponent {
     });
     this.assosiciationService.getAssociations().subscribe((associations) => {
       this.associations = associations;
+    });
+    this.bookingForm.get('name')?.valueChanges.subscribe((name) => {
+      const association = this.associations.find((association) => {
+        return association.name === name;
+      });
+      if (association) {
+        this.emailLabel = association.email;
+      }
     });
   }
 
