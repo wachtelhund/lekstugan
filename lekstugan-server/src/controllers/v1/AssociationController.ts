@@ -3,6 +3,7 @@ import {
   Association,
   getRandomKey,
 } from '../../models/mongo/Association';
+import Booking from '../../models/mongo/Booking';
 import {ITypedRequestBody} from '../../models/types/ITypedRequestBody';
 import {IAssociation} from '../../models/types/IAssociation';
 import {RequestError} from '../../models/errors/RequestError';
@@ -78,6 +79,7 @@ export class AssociationController {
   ): Promise<void> {
     try {
       const id = req.params.id;
+      await Booking.deleteMany({association: id});
       await Association.findByIdAndDelete(id);
       res.json({message: 'Association deleted'});
     } catch (error) {
