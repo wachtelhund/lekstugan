@@ -2,29 +2,36 @@
   <mat-card>
     <h1>Register admin</h1>
     <mat-card-subtitle>
-      This form is used to register a new admin. The admin will be able to
-      add and remove associations, and generate keys for the associations.
-      (It is not meant for the associations!)
+      This form is used to register a new admin. The admin will be able to add
+      and remove associations, and generate keys for the associations. (It is
+      not meant for the associations!)
     </mat-card-subtitle>
     <form [formGroup]="addAdminForm" (ngSubmit)="onAdd()">
       <div class="add">
         <mat-form-field appearance="fill">
           <mat-label>Email</mat-label>
-          <input formControlName="email" matInput>
+          <input formControlName="email" matInput />
         </mat-form-field>
         <mat-form-field appearance="fill">
           <mat-label>Password</mat-label>
-          <input minlength="8" type="password" formControlName="password" matInput>
+          <input
+            minlength="8"
+            type="password"
+            formControlName="password"
+            matInput
+          />
         </mat-form-field>
-        <button type="submit" mat-flat-button>Add admin</button>
+        <button type="submit" mat-raised-button>Add admin</button>
       </div>
     </form>
     <div *ngIf="admins && admins.length > 0" class="admin-list">
       <div *ngFor="let admin of admins">
         <mat-divider></mat-divider>
         <div class="admin">
-          <span>{{admin}}</span>
-          <button color="warn" (click)="onDelete(admin)" mat-raised-button>Remove</button>
+          <span>{{ admin }}</span>
+          <button color="warn" (click)="onDelete(admin)" mat-raised-button>
+            Remove
+          </button>
         </div>
       </div>
     </div>

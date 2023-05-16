@@ -1,7 +1,7 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import {IBooking} from '../types/IBooking';
 import {HttpClient} from '@angular/common/http';
-import {Observable, map} from 'rxjs';
+import {Observable, catchError, map, throwError} from 'rxjs';
 import {environment} from '../../environments/environment';
 import {AuthService} from './auth.service';
 
@@ -56,13 +56,20 @@ export class BookingService {
    *
    * @param {IBooking} booking - The booking to post.
    * @param {string} key - The key to post with.
+   *
+   * @return {Observable<IBooking[]>} - The bookings.
    */
-  postBooking(booking: IBooking): void {
-    this.http
-        .post(this.serverUrl + '/bookings', booking)
-        .subscribe((data) => {
-          this.bookings.push(data as IBooking);
-        });
+  postBooking(booking: IBooking): Observable<void> {
+    return this.http
+        .post(this.serverUrl + '/bookings', booking).pipe(
+            map((data) => {
+              this.bookings.push(data as IBooking);
+            }),
+            catchError((error) => {
+              console.error(error);
+              return throwError(error);
+            })
+        );
   }
 
   /**
