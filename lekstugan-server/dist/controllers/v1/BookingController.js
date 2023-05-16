@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.BookingController = void 0;
 const RequestError_1 = require("../../models/errors/RequestError");
 const Booking_1 = __importDefault(require("../../models/mongo/Booking"));
+const Association_1 = require("../../models/mongo/Association");
 /**
  * BookingController
  */
@@ -19,7 +20,7 @@ class BookingController {
      */
     async getAll(_req, res, _next) {
         try {
-            const bookings = await Booking_1.default.find({});
+            const bookings = await Booking_1.default.find({}).populate('association');
             bookings.sort((a, b) => {
                 return a.date.getTime() - b.date.getTime();
             });
@@ -38,15 +39,21 @@ class BookingController {
      */
     async post(req, res, next) {
         try {
-            const booking = new Booking_1.default({
-                date: req.body.date,
-                email: req.body.email,
-                comment: req.body.comment,
-                association: req.body.association,
-                pending: true,
-            });
-            await booking.save();
-            res.json(booking.id);
+            const association = await Association_1.Association.findOne({ name: req.body.association.name });
+            if (!association) {
+                next(new RequestError_1.RequestError('Could not find association', 404));
+            }
+            else {
+                const booking = new Booking_1.default({
+                    date: req.body.date,
+                    email: req.body.email,
+                    comment: req.body.comment,
+                    association: association.id,
+                    pending: true,
+                });
+                await booking.save();
+                res.json(booking.id);
+            }
         }
         catch (error) {
             next(new RequestError_1.RequestError('Could not post booking', 400));
@@ -62,7 +69,6 @@ class BookingController {
     async delete(req, res, next) {
         try {
             const { id } = req.params;
-            console.log(id);
             await Booking_1.default.findByIdAndDelete(id);
             res.json({ message: 'Booking deleted' });
         }
@@ -89,6 +95,25 @@ class BookingController {
         }
         catch (error) {
             next(new RequestError_1.RequestError('Booking not found', 404));
+        }
+    }
+    /**
+     * Get all booked dates. PUBLIC.
+     *
+     * @param {Request} _req - Request
+     * @param {Response} res - Response
+     * @param {NextFunction} next - NextFunction
+     */
+    async getBookedDates(_req, res, next) {
+        try {
+            const bookings = await Booking_1.default.find({ pending: false });
+            const bookedDates = bookings.map((booking) => {
+                return booking.date;
+            });
+            res.json(bookedDates);
+        }
+        catch (error) {
+            next(new RequestError_1.RequestError('Could not get booked dates', 400));
         }
     }
 }

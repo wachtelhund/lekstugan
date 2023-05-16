@@ -19,7 +19,8 @@ const schema = new mongoose_1.default.Schema({
         maxlength: 100,
     },
     association: {
-        type: String,
+        type: mongoose_1.default.Schema.Types.ObjectId,
+        ref: 'Association',
         required: true,
     },
     pending: {

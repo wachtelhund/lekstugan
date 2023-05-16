@@ -8,9 +8,11 @@ const express_1 = __importDefault(require("express"));
 const imageRouter_1 = require("./imageRouter");
 const bookingRouter_1 = require("./bookingRouter");
 const eventRouter_1 = require("./eventRouter");
+const associationRouter_1 = require("./associationRouter");
 exports.router = express_1.default.Router();
 exports.router.get('/', (_req, res) => res.send('API v1'));
 exports.router.use('/images', imageRouter_1.router);
 exports.router.use('/bookings', bookingRouter_1.router);
 exports.router.use('/events', eventRouter_1.router);
+exports.router.use('/associations', associationRouter_1.router);
 //# sourceMappingURL=router.js.map
