@@ -11,7 +11,7 @@ export const router = express.Router();
 const controller = new AssociationController();
 const auth = new Authentication();
 
-router.get('/', auth.authenticateAdmin, (req, res, next) =>
+router.get('/', (req, res, next) =>
   controller.getAll(req, res, next));
 
 router.post('/', auth.authenticateAdmin, (req, res, next) =>
