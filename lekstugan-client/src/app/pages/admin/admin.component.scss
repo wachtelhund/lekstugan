@@ -14,14 +14,13 @@
 
 .image-container, .event-container {
   position: fixed;
-  // top: 150px;
   top: 150px;
   left: 0;
   display: flex;
   flex-direction: column;
   width: 50%;
   height: 92vh;
-  overflow-y: auto;
+  overflow-y: scroll;
 
 
   & > * {
@@ -55,9 +54,10 @@ event-form {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
+  overflow-y: scroll;
   width: 50%;
-  height: 100%;
-  overflow-y: auto;
+  // height: 100%;
+  // overflow-y: auto;
 
   & > * {
     width: 100%;

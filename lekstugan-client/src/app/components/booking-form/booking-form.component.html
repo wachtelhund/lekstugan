@@ -22,8 +22,12 @@
             cdkAutosizeMaxRows="5"></textarea>
   </mat-form-field>
   <mat-form-field id="name">
-    <mat-label>Association name</mat-label>
-    <input [height]="2" formControlName="name" matInput>
+    <mat-label>Association</mat-label>
+    <mat-select formControlName="name">
+      <mat-option [value]="association.name" *ngFor="let association of associations">
+        {{association.name}}
+      </mat-option>
+    </mat-select>
   </mat-form-field>
   <mat-form-field id="key">
     <mat-label>Key</mat-label>

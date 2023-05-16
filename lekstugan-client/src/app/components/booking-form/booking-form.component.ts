@@ -1,10 +1,10 @@
-import {Component, ElementRef, ViewChild} from '@angular/core';
+import {Component} from '@angular/core';
 import {FormGroup, FormControl, Validators} from '@angular/forms';
 import {BookingService} from '../../services/booking.service';
 import {IBooking} from '../../types/IBooking';
-import {firstValueFrom} from 'rxjs';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {IAssociation} from 'src/app/types/IAssociation';
+import {AssociationService} from 'src/app/services/association.service';
 
 @Component({
   selector: 'app-booking-form',
@@ -15,6 +15,7 @@ import {IAssociation} from 'src/app/types/IAssociation';
  * BookingFormComponent
  */
 export class BookingFormComponent {
+  associations: IAssociation[] = [];
   booked = false;
   invalid = false;
   bookings: Date[] = [];
@@ -55,7 +56,8 @@ export class BookingFormComponent {
    * Constructor.
    */
   constructor(private bookingService: BookingService,
-    private snackBar: MatSnackBar) {}
+    private snackBar: MatSnackBar,
+    private assosiciationService: AssociationService) {}
   roll = false;
 
   /**
@@ -66,6 +68,9 @@ export class BookingFormComponent {
       this.bookings = dates.map((date) => {
         return date;
       });
+    });
+    this.assosiciationService.getAssociations().subscribe((associations) => {
+      this.associations = associations;
     });
   }
 
