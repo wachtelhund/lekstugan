@@ -1,9 +1,13 @@
 <div class="container">
   <mat-card>
     <h1>Register association</h1>
+    <mat-card-subtitle>
+      This form is used to register a new association. The association will be able to
+      send booking requests to Lekstugan.
+    </mat-card-subtitle>
     <form (submit)="onSubmit()" [formGroup]="associationForm">
       <mat-form-field id="name">
-        <mat-label>Name</mat-label>
+        <mat-label>Association name</mat-label>
         <input [height]="2" formControlName="name" matInput>
       </mat-form-field>
       <mat-form-field id="email">
