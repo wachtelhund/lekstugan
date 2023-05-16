@@ -10,7 +10,6 @@ const schema = new mongoose.Schema<IBooking>(
       },
       email: {
         type: String,
-        required: true,
       },
       comment: {
         type: String,

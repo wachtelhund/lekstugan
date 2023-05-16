@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, ElementRef, ViewChild} from '@angular/core';
 import {FormGroup, FormControl, Validators} from '@angular/forms';
 import {BookingService} from '../../services/booking.service';
 import {IBooking} from '../../types/IBooking';
@@ -17,7 +17,6 @@ import {IAssociation} from 'src/app/types/IAssociation';
 export class BookingFormComponent {
   booked = false;
   invalid = false;
-  // bookings: IBooking[] = [];
   bookings: Date[] = [];
   bookedDate = new Date();
   bookingForm = new FormGroup({
@@ -99,16 +98,21 @@ export class BookingFormComponent {
         email: email?.trim().toLowerCase(),
         comment,
         association,
-      } as IBooking);
-      this.snackBar.openFromComponent(BookingConfirmDialog, {
-        duration: 10000,
+      } as IBooking).subscribe(() => {
+        this.snackBar.openFromComponent(BookingConfirmDialog, {
+          duration: 10000,
+        });
+        this.bookedDate = new Date(date);
+        this.bookingForm.reset();
+        this.booked = true;
+        setTimeout(() => {
+          this.booked = false;
+        }, 10000);
+      },
+      (error) => {
+        console.log(error);
+        this.invalid = true;
       });
-      this.bookedDate = new Date(date);
-      this.bookingForm.reset();
-      this.booked = true;
-      setTimeout(() => {
-        this.booked = false;
-      }, 10000);
     } catch (error) {
       this.invalid = true;
     }

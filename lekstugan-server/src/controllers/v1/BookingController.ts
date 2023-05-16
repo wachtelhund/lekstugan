@@ -45,11 +45,13 @@ export class BookingController {
       next: NextFunction,
   ): Promise<void> {
     try {
+      console.log(req.body);
       const association =
         await Association.findOne({name: req.body.association.name});
       if (!association) {
         next(new RequestError('Could not find association', 404));
       } else {
+        console.log('FOUND', association);
         const booking = new Booking<IBooking>({
           date: req.body.date,
           email: req.body.email,
@@ -61,6 +63,7 @@ export class BookingController {
         res.json(booking.id);
       }
     } catch (error) {
+      console.log(error);
       next(new RequestError('Could not post booking', 400));
     }
   }
@@ -120,7 +123,7 @@ export class BookingController {
       next: NextFunction,
   ): Promise<void> {
     try {
-      const bookings = await Booking.find({pending: false});
+      const bookings = await Booking.find({});
       const bookedDates = bookings.map((booking) => {
         return booking.date;
       });
