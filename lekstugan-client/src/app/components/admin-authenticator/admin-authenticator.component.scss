@@ -1,50 +1,30 @@
 .admin {
-  background-color: rgb(236, 236, 236);
-  width: 300px;
-  overflow-y: scroll;
+  max-width: 500px;
   display: flex;
   justify-content: flex-start;
-  padding: 15px;
+  margin: 10px;
   align-items: center;
-
-  &:nth-of-type(odd) {
-    background-color: #e1e1e1;
-  }
-
-  & > button {
-    padding: 12px;
-    height: 20px !important;
-    background-color: #ff4d4d !important;
-    font-weight: bold;
-  }
 
   & > span {
     width: 100%;
   }
 }
 
+mat-card {
+  padding: 20px;
+}
+
 .add {
   display: flex;
   flex-direction: column;
   padding: 10px;
-  background: #cacaca;
-
-  & > button {
-    background: rgb(102, 102, 255);
-    // font-weight: bold;
-    letter-spacing: 2px;
-    font-size: 1.05rem;
-  }
 }
 
 .admin-list {
-  max-height: 500px;
+  max-height: 200px;
   overflow-y: scroll;
 }
 
 .container {
-  width: 300px;
-  margin: 100px;
-  // border: 2px solid black;
-  width: min-content;
+  max-width: 500px;
 }
