@@ -4,6 +4,8 @@ import {ITypedRequestBody} from '../../models/types/ITypedRequestBody';
 import {RequestError} from '../../models/errors/RequestError';
 import Booking from '../../models/mongo/Booking';
 import {Association} from '../../models/mongo/Association';
+import {sendBookingMail} from '../../helpers/Mailing';
+import {IMailParams} from '../../models/types/IMailParams';
 
 /**
  * BookingController
@@ -46,8 +48,9 @@ export class BookingController {
   ): Promise<void> {
     try {
       console.log(req.body);
-      const association =
-        await Association.findOne({name: req.body.association.name});
+      const association = await Association.findOne({
+        name: req.body.association.name,
+      });
       if (!association) {
         next(new RequestError('Could not find association', 404));
       } else {
@@ -60,6 +63,24 @@ export class BookingController {
           pending: true,
         });
         await booking.save();
+        await booking.populate('association');
+
+        const mailData = {
+          to_email: booking.email || booking.association.email,
+          to_name: booking.association.name,
+          from_name: 'Lekstugan',
+          message: `Your booking request has been recieved and will be
+          reviewd shortly, once reviewd you will
+          recieve information via email!`,
+          status: 'Recived',
+          date: booking.date.toDateString(),
+        } as IMailParams;
+        const response = await sendBookingMail(mailData);
+        if (!response.ok) {
+          throw new RequestError('Could not send mail', 400);
+        }
+        const text = await response.text();
+        console.log(text);
         res.json(booking.id);
       }
     } catch (error) {
@@ -78,8 +99,31 @@ export class BookingController {
   async delete(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const {id} = req.params;
-      await Booking.findByIdAndDelete(id);
-      res.json({message: 'Booking deleted'});
+      const booking = await Booking.findById(id).populate('association');
+      if (!booking) {
+        next(new RequestError('Could not find booking', 404));
+      } else {
+        if (booking.pending) {
+          const mailData = {
+            to_email: booking.email || booking.association.email,
+            to_name: booking.association.name,
+            from_name: 'Lekstugan',
+            message: `Your booking has been declined,
+            please try booking another date.`,
+            status: 'Declined',
+            date: booking.date.toDateString(),
+          } as IMailParams;
+          const response = await sendBookingMail(mailData);
+          if (!response.ok) {
+            throw new RequestError('Could not send mail', 400);
+          }
+          await Booking.findByIdAndDelete(id);
+          res.json({message: 'Booking deleted'});
+        } else {
+          await Booking.findByIdAndDelete(id);
+          res.json({message: 'Booking deleted'});
+        }
+      }
     } catch (error) {
       next(new RequestError('Could not find booking', 404));
     }
@@ -99,10 +143,23 @@ export class BookingController {
   ): Promise<void> {
     try {
       const {id} = req.params;
-      const booking = await Booking.findById(id);
+      const booking = await Booking.findById(id).populate('association');
       if (booking) {
+        const mailData = {
+          to_email: booking.email || booking.association.email,
+          to_name: booking.association.name,
+          from_name: 'Lekstugan',
+          message: `Your booking has been accepted!`,
+          status: 'Accepted',
+          date: booking.date.toDateString(),
+        } as IMailParams;
+        const response = await sendBookingMail(mailData);
+        if (!response.ok) {
+          throw new RequestError('Could not send mail', 400);
+        }
         booking.pending = false;
         await booking.save();
+
         res.json(booking);
       }
     } catch (error) {
