@@ -53,7 +53,6 @@ jobs:
         echo "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/id_rsa
         chmod 700 ~/.ssh/id_rsa
         ls -al ~/.ssh/
-        ssh-keyscan -v -t rsa ${{ secrets.DEPLOY_SERVER_IP }} >> ~/.ssh/known_hosts
 
 
     - name: Deploy lekstugan-server
