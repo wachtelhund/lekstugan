@@ -4,7 +4,7 @@
     <mat-card-subtitle>This form is used to generate a private key
       for the associations to use when signing their booking requests.
       Once a new key has been generated, the old one will be invalid.
-      (Make sure the assocciation recieves the lastest key generated!)
+      (The key automatically get send to the association's email)
     </mat-card-subtitle>
     <form (submit)="onGenerateKey()" [formGroup]="association">
       <mat-form-field>
