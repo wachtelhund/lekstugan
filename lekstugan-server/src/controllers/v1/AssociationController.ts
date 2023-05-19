@@ -7,6 +7,8 @@ import Booking from '../../models/mongo/Booking';
 import {ITypedRequestBody} from '../../models/types/ITypedRequestBody';
 import {IAssociation} from '../../models/types/IAssociation';
 import {RequestError} from '../../models/errors/RequestError';
+import {IMailParams} from '../../models/types/IMailParams';
+import {sendBookingMail} from '../../helpers/Mailing';
 
 /**
  * AssociationController
@@ -105,9 +107,25 @@ export class AssociationController {
         next(new RequestError('Could not find association', 404));
       } else {
         const key = getRandomKey();
-        association.key = key;
-        await association.save();
-        res.json(key);
+        const mailData = {
+          to_email: association.email,
+          to_name: association.name,
+          from_name: 'Lekstugan',
+          key,
+        } as IMailParams;
+        const response = await sendBookingMail(mailData);
+        if (!response.ok) {
+          const text = await response.text();
+          console.log(text);
+          res.json('Could not send key to association, please try again later');
+        } else {
+          const text = await response.text();
+          console.log(text);
+
+          association.key = key;
+          await association.save();
+          res.json(`Key has been sent to association (${association.name})`);
+        }
       }
     } catch (error) {
       next(new RequestError('Could not generate new key', 400));
