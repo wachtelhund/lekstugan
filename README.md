@@ -1,4 +1,4 @@
-# Introduction to Lekstugan Website Project
+# Lekstugan Website Project
 
 The Lekstugan Website is a dynamic and user-centric web platform, crafted to optimize the engagement and management of Lekstugan. This project is built using MongoDB, Express, Angular and NodeJS (MEAN), with its development governed by standards for quality coding, version control, and documentation.
 
