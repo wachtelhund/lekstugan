@@ -47,14 +47,11 @@ export class BookingController {
       next: NextFunction,
   ): Promise<void> {
     try {
-      console.log(req.body);
-      const association = await Association.findOne({
-        name: req.body.association.name,
-      });
+      const association =
+        await Association.findOne({name: req.body.association.name});
       if (!association) {
         next(new RequestError('Could not find association', 404));
       } else {
-        console.log('FOUND', association);
         const booking = new Booking<IBooking>({
           date: req.body.date,
           email: req.body.email,
