@@ -52,7 +52,8 @@ jobs:
         mkdir -p ~/.ssh/
         echo "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
-        ssh-keyscan -t rsa ${{ secrets.DEPLOY_SERVER_IP }} >> ~/.ssh/known_hosts
+        ssh-keyscan -v -t rsa ${{ secrets.DEPLOY_SERVER_IP }} >> ~/.ssh/known_hosts
+
 
     - name: Deploy lekstugan-server
       run: scp -r lekstugan-server/dist ${{ secrets.DEPLOY_SERVER_USER }}@${{ secrets.DEPLOY_SERVER_IP }}:/var/www/lekstugan/lekstugan-server
