@@ -7,6 +7,7 @@ exports.BookingController = void 0;
 const RequestError_1 = require("../../models/errors/RequestError");
 const Booking_1 = __importDefault(require("../../models/mongo/Booking"));
 const Association_1 = require("../../models/mongo/Association");
+const Mailing_1 = require("../../helpers/Mailing");
 /**
  * BookingController
  */
@@ -40,7 +41,9 @@ class BookingController {
     async post(req, res, next) {
         try {
             console.log(req.body);
-            const association = await Association_1.Association.findOne({ name: req.body.association.name });
+            const association = await Association_1.Association.findOne({
+                name: req.body.association.name,
+            });
             if (!association) {
                 next(new RequestError_1.RequestError('Could not find association', 404));
             }
@@ -54,6 +57,23 @@ class BookingController {
                     pending: true,
                 });
                 await booking.save();
+                await booking.populate('association');
+                const mailData = {
+                    to_email: booking.email || booking.association.email,
+                    to_name: booking.association.name,
+                    from_name: 'Lekstugan',
+                    message: `Your booking request has been recieved and will be
+          reviewd shortly, once reviewd you will
+          recieve information via email!`,
+                    status: 'Recived',
+                    date: booking.date.toDateString(),
+                };
+                const response = await (0, Mailing_1.sendBookingMail)(mailData);
+                if (!response.ok) {
+                    throw new RequestError_1.RequestError('Could not send mail', 400);
+                }
+                const text = await response.text();
+                console.log(text);
                 res.json(booking.id);
             }
         }
@@ -72,8 +92,33 @@ class BookingController {
     async delete(req, res, next) {
         try {
             const { id } = req.params;
-            await Booking_1.default.findByIdAndDelete(id);
-            res.json({ message: 'Booking deleted' });
+            const booking = await Booking_1.default.findById(id).populate('association');
+            if (!booking) {
+                next(new RequestError_1.RequestError('Could not find booking', 404));
+            }
+            else {
+                if (booking.pending) {
+                    const mailData = {
+                        to_email: booking.email || booking.association.email,
+                        to_name: booking.association.name,
+                        from_name: 'Lekstugan',
+                        message: `Your booking has been declined,
+            please try booking another date.`,
+                        status: 'Declined',
+                        date: booking.date.toDateString(),
+                    };
+                    const response = await (0, Mailing_1.sendBookingMail)(mailData);
+                    if (!response.ok) {
+                        throw new RequestError_1.RequestError('Could not send mail', 400);
+                    }
+                    await Booking_1.default.findByIdAndDelete(id);
+                    res.json({ message: 'Booking deleted' });
+                }
+                else {
+                    await Booking_1.default.findByIdAndDelete(id);
+                    res.json({ message: 'Booking deleted' });
+                }
+            }
         }
         catch (error) {
             next(new RequestError_1.RequestError('Could not find booking', 404));
@@ -89,8 +134,20 @@ class BookingController {
     async accept(req, res, next) {
         try {
             const { id } = req.params;
-            const booking = await Booking_1.default.findById(id);
+            const booking = await Booking_1.default.findById(id).populate('association');
             if (booking) {
+                const mailData = {
+                    to_email: booking.email || booking.association.email,
+                    to_name: booking.association.name,
+                    from_name: 'Lekstugan',
+                    message: `Your booking has been accepted!`,
+                    status: 'Accepted',
+                    date: booking.date.toDateString(),
+                };
+                const response = await (0, Mailing_1.sendBookingMail)(mailData);
+                if (!response.ok) {
+                    throw new RequestError_1.RequestError('Could not send mail', 400);
+                }
                 booking.pending = false;
                 await booking.save();
                 res.json(booking);
