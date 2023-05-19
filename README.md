@@ -1,9 +1,7 @@
-# Ditt projekt
+# Introduction to Lekstugan Website Project
 
-Detta är ditt projekts GitLab-projekt och här hittar du bland annat Wikin i vilken du ska dokumentera ditt projekt. Du hittar länk till din Wiki i menyn till vänster.
+The Lekstugan Website is a dynamic and user-centric web platform, crafted to optimize the engagement and management of Lekstugan. This project is built using MongoDB, Express, Angular and NodeJS (MEAN), with its development governed by standards for quality coding, version control, and documentation.
 
-Detta GitLab-projekt kan du använda för att spara ner saker som hör till din applikation som helhet men du bör skapa egna projekt för respektive del i ditt projekt. Kanske ett projekt för en webbklient och ett för ett API. Ska du ta fram flera _"microservices"_? Då kanske ett GitLab-projekt per service är att föredra. Har du bara en kodbas så kan du naturligtvis använda detta GitLab-projekt, men observera att du inte är "maintainer" på detta projekt varför du inte kan skapa egna pipelines.
+The website is designed to cater to a variety of people, including student associations, event attendees, and administrative personnel. Its key features encompass a robust booking system with unique key-based authentication, a vibrant public photo gallery for sharing event highlights, an informative landing page, an upcoming events showcase, and a dedicated admin panel for streamlined management.
 
-Det är på detta GitLab-projekt du kommer att göra din _"merge request"_.
-
-👉 __Ersätt gärna denna sida med eget innehåll.__
+The Lekstugan Website project is not only about building a site but also about ensuring a superior user experience and operational efficiency. It simplifies the processes of booking management, content review, event updates, and administrative tasks. With strict adherence to ethical guidelines the website ensures a secure, dependable, and user-friendly experience.
