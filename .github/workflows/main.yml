@@ -1,0 +1,69 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+      
+    - name: Install, build, and lint lekstugan-server
+      run: |
+        cd lekstugan-server
+        npm install
+        npm run build
+        npm run lint
+
+    - name: Install and build auth-service
+      run: |
+        cd ../auth-service
+        npm install
+
+    - name: Install, build, and lint lekstugan-client
+      run: |
+        cd ../lekstugan-client
+        npm install
+        npm run build
+        npm run lint
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup SSH key for deployment
+      run: |
+        mkdir -p ~/.ssh/
+        echo "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -t rsa ${{ secrets.DEPLOY_SERVER_IP }} >> ~/.ssh/known_hosts
+
+    - name: Deploy lekstugan-server
+      run: scp -r lekstugan-server/dist ${{ secrets.DEPLOY_SERVER_USER }}@${{ secrets.DEPLOY_SERVER_IP }}:/var/www/lekstugan/lekstugan-server
+
+    - name: Deploy auth-service
+      run: |
+        scp -r auth-service/* ${{ secrets.DEPLOY_SERVER_USER }}@${{ secrets.DEPLOY_SERVER_IP }}:/var/www/lekstugan/auth-service
+        ssh ${{ secrets.DEPLOY_SERVER_USER }}@${{ secrets.DEPLOY_SERVER_IP }} "cd /var/www/lekstugan/auth-service && npm install"
+
+    - name: Deploy lekstugan-client
+      run: scp -r lekstugan-client/dist/* ${{ secrets.DEPLOY_SERVER_USER }}@${{ secrets.DEPLOY_SERVER_IP }}:/var/www/lekstugan/lekstugan-client
+
+    - name: Restart lekstugan-server
+      run: ssh ${{ secrets.DEPLOY_SERVER_USER }}@${{ secrets.DEPLOY_SERVER_IP }} "sudo pm2 restart all"
