@@ -30,12 +30,12 @@ jobs:
 
     - name: Install and build auth-service
       run: |
-        cd ../auth-service
+        cd auth-service
         npm install
 
     - name: Install, build, and lint lekstugan-client
       run: |
-        cd ../lekstugan-client
+        cd lekstugan-client
         npm install
         npm run build
         npm run lint
