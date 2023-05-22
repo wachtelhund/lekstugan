@@ -1,5 +1,5 @@
 export interface IAssociation {
-  id?: number;
+  id?: string;
   name: string;
   email: string;
   key?: string;

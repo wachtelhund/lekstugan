@@ -63,7 +63,7 @@ export class AssociationController {
       await association.save();
       res.json(association.id);
     } catch (error) {
-      next(new Error('Could not post association'));
+      next(new RequestError('Could not create association', 400));
     }
   }
 
@@ -85,7 +85,7 @@ export class AssociationController {
       await Association.findByIdAndDelete(id);
       res.json({message: 'Association deleted'});
     } catch (error) {
-      next(new Error('Could not delete association'));
+      next(new RequestError('Could not delete association', 400));
     }
   }
 
