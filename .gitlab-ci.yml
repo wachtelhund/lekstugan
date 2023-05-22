@@ -1,0 +1,58 @@
+stages:
+  - build
+  - deploy
+
+variables:
+  NODE_VERSION: '14'
+
+before_script:
+  - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+  - eval $(ssh-agent -s)
+  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+  - mkdir -p ~/.ssh
+  - chmod 700 ~/.ssh
+
+lekstugan-server-build:
+  stage: build
+  image: node:$NODE_VERSION
+  script:
+    - cd lekstugan-server
+    - npm install
+    - npm run build
+    - npm run lint
+  artifacts:
+    paths:
+      - lekstugan-server/
+
+auth-service-build:
+  stage: build
+  image: node:$NODE_VERSION
+  script:
+    - cd auth-service
+    - npm install
+  artifacts:
+    paths:
+      - auth-service/
+
+lekstugan-client-build:
+  stage: build
+  image: node:$NODE_VERSION
+  script:
+    - cd lekstugan-client
+    - npm install
+    - npm run build
+    - npm run lint
+  artifacts:
+    paths:
+      - lekstugan-client/
+
+deploy:
+  stage: deploy
+  script:
+    - scp -r lekstugan-server/dist $DEPLOY_SERVER_USER@$DEPLOY_SERVER_IP:/var/www/lekstugan/lekstugan-server
+    - scp -r auth-service/* $DEPLOY_SERVER_USER@$DEPLOY_SERVER_IP:/var/www/lekstugan/auth-service
+    - ssh $DEPLOY_SERVER_USER@$DEPLOY_SERVER_IP "cd /var/www/lekstugan/auth-service && npm install"
+    - scp -r lekstugan-client/dist/* $DEPLOY_SERVER_USER@$DEPLOY_SERVER_IP:/var/www/lekstugan/lekstugan-client
+    - ssh $DEPLOY_SERVER_USER@$DEPLOY_SERVER_IP "pm2 restart all"
+  environment:
+    name: production
