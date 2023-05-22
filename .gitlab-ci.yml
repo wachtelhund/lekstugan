@@ -13,6 +13,7 @@ before_script:
   - chmod 700 ~/.ssh
   - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
   - chmod 644 ~/.ssh/known_hosts
+  - export PATH=/home/ubuntu/.nvm/versions/node/v18.16.0/bin:$PATH
 
 lekstugan-server-build:
   stage: build
