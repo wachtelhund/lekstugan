@@ -56,6 +56,6 @@ deploy:
     - scp -r auth-service/* $DEPLOY_SERVER_USER@$DEPLOY_SERVER_IP:/var/www/lekstugan/auth-service
     - ssh $DEPLOY_SERVER_USER@$DEPLOY_SERVER_IP "cd /var/www/lekstugan/auth-service && npm install"
     - scp -r lekstugan-client/dist/* $DEPLOY_SERVER_USER@$DEPLOY_SERVER_IP:/var/www/lekstugan/lekstugan-client
-    - ssh $DEPLOY_SERVER_USER@$DEPLOY_SERVER_IP "pm2 restart all"
+    - ssh $DEPLOY_SERVER_USER@$DEPLOY_SERVER_IP "source ~/.bashrc; pm2 restart all"
   environment:
     name: production
