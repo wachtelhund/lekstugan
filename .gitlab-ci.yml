@@ -55,7 +55,7 @@ deploy:
     - scp -r lekstugan-server/dist $DEPLOY_SERVER_USER@$DEPLOY_SERVER_IP:/var/www/lekstugan/lekstugan-server
     - scp -r auth-service/* $DEPLOY_SERVER_USER@$DEPLOY_SERVER_IP:/var/www/lekstugan/auth-service
     - ssh $DEPLOY_SERVER_USER@$DEPLOY_SERVER_IP "cd /var/www/lekstugan/auth-service && npm install"
-    - scp -r lekstugan-client/dist/* $DEPLOY_SERVER_USER@$DEPLOY_SERVER_IP:/var/www/lekstugan/lekstugan-client
+    - scp -r lekstugan-client/dist/* $DEPLOY_SERVER_USER@$DEPLOY_SERVER_IP:/var/www/lekstugan
     - ssh $DEPLOY_SERVER_USER@$DEPLOY_SERVER_IP "/home/ubuntu/.nvm/versions/node/v18.16.0/bin/pm2 restart all"
   environment:
     name: production

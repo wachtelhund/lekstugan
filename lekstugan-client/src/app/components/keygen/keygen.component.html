@@ -20,6 +20,9 @@
         <mat-icon>key</mat-icon>
       </button>
     </form>
+    <span class="spinner" *ngIf="loading" >
+      <mat-spinner></mat-spinner>
+    </span>
     <span class="key" *ngIf="key.length > 0">
       <div>
         <mat-icon>key</mat-icon>

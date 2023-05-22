@@ -17,6 +17,7 @@ export class KeygenComponent {
   association = new FormGroup({
     name: new FormControl('', Validators.required),
   });
+  loading = false;
 
   /**
    * Constructor.
@@ -30,24 +31,34 @@ export class KeygenComponent {
     this.associationService.getAssociations().subscribe((associations) => {
       this.allAssociations = associations;
     });
+    this.associationService.associationAdded.subscribe((association) => {
+      this.allAssociations.push(association);
+    });
+    this.associationService.associationDeleted.subscribe((association) => {
+      this.allAssociations = this.allAssociations.filter((a) => {
+        return a.id !== association.id;
+      });
+    });
   }
 
   /**
    * When the user clicks the generate key button.
    */
   onGenerateKey() {
-    console.log(this.association.value);
     if (this.association.invalid) {
       throw new Error('Invalid association');
     }
-    console.log(this.allAssociations);
+    this.loading = true;
     const foundAssociation = this.allAssociations.find((association) => {
-      console.log(association);
       return association.name === this.association.value.name;
     }) as IAssociation;
     this.associationService.getNewKey(foundAssociation)
         .subscribe((key) => {
           this.key = key;
+          setTimeout(() => {
+            this.key = '';
+          }, 10000);
+          this.loading = false;
         });
   }
 }
