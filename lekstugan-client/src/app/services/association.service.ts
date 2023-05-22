@@ -1,8 +1,8 @@
 import {HttpClient} from '@angular/common/http';
-import {Injectable} from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 import {environment} from 'src/environments/environment';
 import {AuthService} from './auth.service';
-import {Observable} from 'rxjs';
+import {Observable, tap} from 'rxjs';
 import {IAssociation} from '../types/IAssociation';
 
 @Injectable({
@@ -14,6 +14,8 @@ import {IAssociation} from '../types/IAssociation';
 export class AssociationService {
   serverUrl = `${environment.apiURL}/associations`;
   associations: IAssociation[] = [];
+  associationAdded = new EventEmitter<IAssociation>();
+  associationDeleted = new EventEmitter<IAssociation>();
   /**
    * Constructor.
    */
@@ -41,7 +43,11 @@ export class AssociationService {
     return this.http.delete<void>(`${this.serverUrl}/${association.id}`,
         // eslint-disable-next-line
         {headers: {'Authorization': 'Bearer ' +
-          localStorage.getItem('token')}});
+          localStorage.getItem('token')}}).pipe(
+        tap(() => {
+          this.associationDeleted.emit(association);
+        })
+    );
   }
 
   /**
@@ -54,7 +60,12 @@ export class AssociationService {
     return this.http.post<string>(this.serverUrl, association,
         // eslint-disable-next-line
         {headers: {'Authorization': 'Bearer ' +
-          localStorage.getItem('token')}});
+          localStorage.getItem('token')}}).pipe(
+        tap((res) => {
+          association.id = res;
+          this.associationAdded.emit(association);
+        })
+    );
   }
 
   /**
