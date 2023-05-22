@@ -61,4 +61,14 @@ export class AppComponent implements OnInit {
   toggleLinks() {
     this.linksActive = !this.linksActive;
   }
+
+  /**
+   * When the user clicks the logout button.
+   */
+  onLogout() {
+    localStorage.removeItem('token');
+    this.auth.currentUser.next(null);
+    this.auth.token.next(null);
+    location.reload();
+  }
 }
