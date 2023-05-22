@@ -6,4 +6,4 @@ The website is designed to cater to a variety of people, including student assoc
 
 The Lekstugan Website project is not only about building a site but also about ensuring a superior user experience and operational efficiency. It simplifies the processes of booking management, content review, event updates, and administrative tasks. With strict adherence to ethical guidelines the website ensures a secure, dependable, and user-friendly experience.
 
-#### Be sure to checkout out the [wiki](https://gitlab.lnu.se/1dv613/student/hn222te/project/-/wikis/home)
+#### Be sure to checkout out the [wiki](https://gitlab.lnu.se/1dv613/student/hn222te/projects/lekstugan/-/wikis/home)
