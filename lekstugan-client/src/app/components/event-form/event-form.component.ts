@@ -83,7 +83,7 @@ export class EventFormComponent {
         image: this.eventForm.value.image,
         link,
       } as IEventData);
-      this.eventForm.reset();
+      // this.eventForm.reset();
       this.posted = true;
       setTimeout(() => {
         this.posted = false;

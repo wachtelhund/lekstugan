@@ -6,6 +6,7 @@ const schema = new mongoose.Schema<IEventData>(
       description: {
         type: String,
         required: true,
+        maxlength: 500,
       },
       title: {
         type: String,
