@@ -117,7 +117,7 @@ export class BookingFormComponent {
           duration: 10000,
         });
         this.bookedDate = new Date(date);
-        this.bookingForm.reset();
+        // this.bookingForm.reset();
         this.booked = true;
         setTimeout(() => {
           this.booked = false;
