@@ -35,7 +35,7 @@ mat-form-field {
   max-width: 500px;
   @media screen and (max-width: 700px) {
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
+    // grid-template-rows: 1fr 1fr 1fr;
     grid-template-areas: 
     'date'
     'title'
