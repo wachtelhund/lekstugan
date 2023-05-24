@@ -57,6 +57,7 @@ import {
 import {
   AuthenticationComponent,
 } from './pages/authentication/authentication.component';
+import { HomeComponent } from './pages/home/home.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -75,6 +76,7 @@ import {
     KeygenComponent,
     AssociationAuthComponent,
     AuthenticationComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
