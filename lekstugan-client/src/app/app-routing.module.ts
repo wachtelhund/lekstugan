@@ -16,8 +16,13 @@ import {AuthGuard} from './services/auth.guard';
 import {
   AuthenticationComponent,
 } from './pages/authentication/authentication.component';
+import {HomeComponent} from './pages/home/home.component';
 
 const routes: Routes = [
+  {
+    path: '',
+    component: HomeComponent,
+  },
   {
     path: 'gallery',
     component: ImageGalleryComponent,
