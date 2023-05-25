@@ -57,6 +57,10 @@ footer {
   }
 }
 
+.map:hover {
+  transform: unset;
+}
+
 @media screen and (max-width: 768px) {
   .container {
     margin-top: 110px;
