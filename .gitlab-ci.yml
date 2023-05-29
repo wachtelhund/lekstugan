@@ -26,6 +26,7 @@ lekstugan-server-build:
   artifacts:
     paths:
       - lekstugan-server/
+    expire_in: 1h
 
 auth-service-build:
   stage: build
@@ -36,6 +37,7 @@ auth-service-build:
   artifacts:
     paths:
       - auth-service/
+    expire_in: 1h
 
 lekstugan-client-build:
   stage: build
@@ -49,6 +51,7 @@ lekstugan-client-build:
   artifacts:
     paths:
       - lekstugan-client/
+    expire_in: 1h
 
 deploy:
   stage: deploy
