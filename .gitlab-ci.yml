@@ -26,6 +26,10 @@ lekstugan-server-build:
   artifacts:
     paths:
       - lekstugan-server/
+<<<<<<< HEAD
+=======
+    expire_in: 1h
+>>>>>>> 52828fd52d9cf1d0983a03358c2c33b25789f3f8
 
 auth-service-build:
   stage: build
@@ -36,6 +40,10 @@ auth-service-build:
   artifacts:
     paths:
       - auth-service/
+<<<<<<< HEAD
+=======
+    expire_in: 1h
+>>>>>>> 52828fd52d9cf1d0983a03358c2c33b25789f3f8
 
 lekstugan-client-build:
   stage: build
@@ -45,9 +53,17 @@ lekstugan-client-build:
     - npm install
     - npm run build
     - npm run lint
+<<<<<<< HEAD
   artifacts:
     paths:
       - lekstugan-client/
+=======
+    - npm run test
+  artifacts:
+    paths:
+      - lekstugan-client/
+    expire_in: 1h
+>>>>>>> 52828fd52d9cf1d0983a03358c2c33b25789f3f8
 
 deploy:
   stage: deploy

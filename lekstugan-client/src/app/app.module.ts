@@ -57,7 +57,11 @@ import {
 import {
   AuthenticationComponent,
 } from './pages/authentication/authentication.component';
+<<<<<<< HEAD
 import {HomeComponent} from './pages/home/home.component';
+=======
+import { HomeComponent } from './pages/home/home.component';
+>>>>>>> 52828fd52d9cf1d0983a03358c2c33b25789f3f8
 @NgModule({
   declarations: [
     AppComponent,
