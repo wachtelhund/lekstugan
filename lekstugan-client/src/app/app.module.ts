@@ -57,7 +57,7 @@ import {
 import {
   AuthenticationComponent,
 } from './pages/authentication/authentication.component';
-import { HomeComponent } from './pages/home/home.component';
+import {HomeComponent} from './pages/home/home.component';
 @NgModule({
   declarations: [
     AppComponent,

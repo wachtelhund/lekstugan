@@ -11,11 +11,11 @@ import logger from 'morgan'
 import { router } from './routes/router.js'
 import { connectDB } from './config/mongoose.js'
 import cors from 'cors'
+const app = express()
+export default app
 
 try {
   await connectDB()
-
-  const app = express()
 
   app.use(helmet())
 
