@@ -45,6 +45,7 @@ lekstugan-client-build:
     - npm install
     - npm run build
     - npm run lint
+    - npm run test
   artifacts:
     paths:
       - lekstugan-client/
